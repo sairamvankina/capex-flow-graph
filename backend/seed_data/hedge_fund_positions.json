@@ -82,6 +82,12 @@
         "name": "ADVANCED MICRO DEVICES INC"
       },
       {
+        "ticker": "ORCL",
+        "shares": 1592069,
+        "value": 234209271,
+        "name": "ORACLE CORP"
+      },
+      {
         "ticker": "MRVL",
         "shares": 1948947,
         "value": 193043200,
@@ -130,6 +136,18 @@
         "name": "ARM HOLDINGS PLC"
       },
       {
+        "ticker": "NRG",
+        "shares": 588502,
+        "value": 86003682,
+        "name": "NRG ENERGY INC"
+      },
+      {
+        "ticker": "CSCO",
+        "shares": 822892,
+        "value": 63848190,
+        "name": "CISCO SYS INC"
+      },
+      {
         "ticker": "CEG",
         "shares": 206339,
         "value": 57620166,
@@ -148,10 +166,22 @@
         "name": "VISTRA CORP"
       },
       {
+        "ticker": "COHR",
+        "shares": 163368,
+        "value": 38915891,
+        "name": "COHERENT CORP"
+      },
+      {
         "ticker": "DELL",
         "shares": 223392,
         "value": 36665329,
         "name": "DELL TECHNOLOGIES INC"
+      },
+      {
+        "ticker": "NVT",
+        "shares": 261192,
+        "value": 30893790,
+        "name": "NVENT ELEC PLC"
       },
       {
         "ticker": "QCOM",
@@ -160,10 +190,22 @@
         "name": "QUALCOMM INC"
       },
       {
+        "ticker": "EQIX",
+        "shares": 24782,
+        "value": 24292308,
+        "name": "EQUINIX INC"
+      },
+      {
         "ticker": "PLTR",
         "shares": 128186,
         "value": 18751048,
         "name": "PALANTIR TECHNOLOGIES INC"
+      },
+      {
+        "ticker": "SYM",
+        "shares": 176987,
+        "value": 9415708,
+        "name": "SYMBOTIC INC"
       },
       {
         "ticker": "ETN",
@@ -172,10 +214,46 @@
         "name": "EATON CORP PLC"
       },
       {
+        "ticker": "MOD",
+        "shares": 25646,
+        "value": 5557745,
+        "name": "MODINE MFG CO"
+      },
+      {
+        "ticker": "OKLO",
+        "shares": 54956,
+        "value": 2725268,
+        "name": "OKLO INC"
+      },
+      {
+        "ticker": "DLR",
+        "shares": 14652,
+        "value": 2640437,
+        "name": "DIGITAL RLTY TR INC"
+      },
+      {
+        "ticker": "NEE",
+        "shares": 24871,
+        "value": 2310018,
+        "name": "NEXTERA ENERGY INC"
+      },
+      {
+        "ticker": "PANW",
+        "shares": 13169,
+        "value": 2111254,
+        "name": "PALO ALTO NETWORKS INC"
+      },
+      {
         "ticker": "SMCI",
         "shares": 73888,
         "value": 1682430,
         "name": "SUPER MICRO COMPUTER INC"
+      },
+      {
+        "ticker": "CRWD",
+        "shares": 4005,
+        "value": 1563592,
+        "name": "CROWDSTRIKE HLDGS INC"
       },
       {
         "ticker": "SNOW",
@@ -188,6 +266,12 @@
         "shares": 2017,
         "value": 749820,
         "name": "TESLA INC"
+      },
+      {
+        "ticker": "PATH",
+        "shares": 37242,
+        "value": 413386,
+        "name": "UIPATH INC"
       }
     ]
   },
@@ -283,6 +367,12 @@
         "name": "ASML HLDG NV"
       },
       {
+        "ticker": "ORCL",
+        "shares": 20030538,
+        "value": 2946692445,
+        "name": "ORACLE CORP"
+      },
+      {
         "ticker": "INTC",
         "shares": 55185546,
         "value": 2435338145,
@@ -295,6 +385,12 @@
         "name": "SALESFORCE INC"
       },
       {
+        "ticker": "CRWD",
+        "shares": 4870218,
+        "value": 1901381809,
+        "name": "CROWDSTRIKE HLDGS INC"
+      },
+      {
         "ticker": "DELL",
         "shares": 8640164,
         "value": 1418110117,
@@ -305,6 +401,12 @@
         "shares": 4627023,
         "value": 1159439423,
         "name": "VERTIV HOLDINGS CO"
+      },
+      {
+        "ticker": "PANW",
+        "shares": 7011463,
+        "value": 1124077749,
+        "name": "PALO ALTO NETWORKS INC"
       },
       {
         "ticker": "SNOW",
@@ -337,6 +439,24 @@
         "name": "CONSTELLATION ENERGY CORP"
       },
       {
+        "ticker": "CSCO",
+        "shares": 8146826,
+        "value": 632112229,
+        "name": "CISCO SYS INC"
+      },
+      {
+        "ticker": "COHR",
+        "shares": 2589294,
+        "value": 616795723,
+        "name": "COHERENT CORP"
+      },
+      {
+        "ticker": "NEE",
+        "shares": 5815631,
+        "value": 540155807,
+        "name": "NEXTERA ENERGY INC"
+      },
+      {
         "ticker": "VST",
         "shares": 3511130,
         "value": 527828173,
@@ -347,6 +467,12 @@
         "shares": 21020121,
         "value": 478628155,
         "name": "SUPER MICRO COMPUTER INC"
+      },
+      {
+        "ticker": "EQIX",
+        "shares": 455002,
+        "value": 446011160,
+        "name": "EQUINIX INC"
       },
       {
         "ticker": "ANET",
@@ -365,6 +491,60 @@
         "shares": 837135,
         "value": 325000921,
         "name": "CIENA CORP"
+      },
+      {
+        "ticker": "OKLO",
+        "shares": 5445876,
+        "value": 270060991,
+        "name": "OKLO INC"
+      },
+      {
+        "ticker": "NVT",
+        "shares": 2070586,
+        "value": 244908912,
+        "name": "NVENT ELEC PLC"
+      },
+      {
+        "ticker": "MOD",
+        "shares": 380050,
+        "value": 82360636,
+        "name": "MODINE MFG CO"
+      },
+      {
+        "ticker": "PATH",
+        "shares": 7196511,
+        "value": 79881272,
+        "name": "UIPATH INC"
+      },
+      {
+        "ticker": "NRG",
+        "shares": 539054,
+        "value": 78777352,
+        "name": "NRG ENERGY INC"
+      },
+      {
+        "ticker": "DLR",
+        "shares": 417580,
+        "value": 75252092,
+        "name": "DIGITAL RLTY TR INC"
+      },
+      {
+        "ticker": "SYM",
+        "shares": 1148965,
+        "value": 61124938,
+        "name": "SYMBOTIC INC"
+      },
+      {
+        "ticker": "AI",
+        "shares": 3671219,
+        "value": 30911664,
+        "name": "C3 AI INC"
+      },
+      {
+        "ticker": "NNE",
+        "shares": 929779,
+        "value": 19041874,
+        "name": "NANO NUCLEAR ENERGY INC"
       }
     ]
   },
@@ -374,7 +554,14 @@
     "filing_date": "2026-05-15",
     "report_period": "2026-03-31",
     "total_portfolio_value": 1235631504,
-    "positions": []
+    "positions": [
+      {
+        "ticker": "NRG",
+        "shares": 3540,
+        "value": 517336,
+        "name": "NRG ENERGY INC"
+      }
+    ]
   },
   "Tiger Global": {
     "name": "Tiger Global",
@@ -483,10 +670,22 @@
         "name": "META PLATFORMS INC"
       },
       {
+        "ticker": "ORCL",
+        "shares": 5207,
+        "value": 765980,
+        "name": "ORACLE CORP"
+      },
+      {
         "ticker": "TSLA",
         "shares": 1550,
         "value": 576213,
         "name": "TESLA INC"
+      },
+      {
+        "ticker": "CSCO",
+        "shares": 5527,
+        "value": 428864,
+        "name": "CISCO SYS INC"
       },
       {
         "ticker": "MU",

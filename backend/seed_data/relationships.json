@@ -776,5 +776,308 @@
     "deal_date": "2021-01-01",
     "deal_duration": "Long-term leases (10-15 years)",
     "source_info": "Digital Realty builds data centers that hyperscalers lease. AWS largest customer."
+  },
+  {
+    "source": "MSFT",
+    "target": "SBGSF",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 2000000000,
+    "product": "Data center power & cooling infrastructure",
+    "description": "Schneider provides power distribution and cooling for Azure data centers globally",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "GOOG",
+    "target": "VRT",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 1500000000,
+    "product": "Thermal management systems",
+    "description": "Vertiv cooling for Google's hyperscale data centers",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "META",
+    "target": "VRT",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 1200000000,
+    "product": "Precision cooling units",
+    "description": "Vertiv cooling infrastructure for Meta's AI training clusters",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "NVT",
+    "target": "EQIX",
+    "rel_type": "SUPPLIES",
+    "product": "Electrical enclosures & thermal management",
+    "description": "nVent provides thermal solutions and enclosures to Equinix data centers",
+    "strategic_importance": "medium",
+    "annual_recurring": true
+  },
+  {
+    "source": "MOD",
+    "target": "DLR",
+    "rel_type": "SUPPLIES",
+    "product": "Data center thermal management",
+    "description": "Modine liquid cooling and heat transfer solutions for Digital Realty",
+    "strategic_importance": "medium",
+    "annual_recurring": true
+  },
+  {
+    "source": "MSFT",
+    "target": "CSCO",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 3000000000,
+    "product": "Network switches & routers",
+    "description": "Cisco networking equipment for Azure data centers",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "AMZN",
+    "target": "CSCO",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 2500000000,
+    "product": "Data center networking",
+    "description": "AWS networking infrastructure from Cisco",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "CSCO",
+    "target": "JNPR",
+    "rel_type": "COMPETES_WITH",
+    "description": "Enterprise networking competition",
+    "strategic_importance": "high"
+  },
+  {
+    "source": "CSCO",
+    "target": "ANET",
+    "rel_type": "COMPETES_WITH",
+    "description": "Cloud networking competition \u2014 Arista gaining share",
+    "strategic_importance": "high"
+  },
+  {
+    "source": "CIEN",
+    "target": "INFN",
+    "rel_type": "COMPETES_WITH",
+    "description": "Optical networking/photonics competition",
+    "strategic_importance": "medium"
+  },
+  {
+    "source": "GOOG",
+    "target": "NNE",
+    "rel_type": "PARTNERS_WITH",
+    "description": "Google exploring small modular reactor partnerships for data center power",
+    "strategic_importance": "medium",
+    "deal_date": "2024-10-01"
+  },
+  {
+    "source": "GOOG",
+    "target": "OKLO",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 500000000,
+    "product": "Small modular reactor power",
+    "description": "Google signed deal for 500MW of nuclear power from Oklo's Aurora reactors",
+    "strategic_importance": "high",
+    "deal_date": "2024-12-01",
+    "deal_duration": "Multi-decade"
+  },
+  {
+    "source": "AMZN",
+    "target": "NRG",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 650000000,
+    "product": "Renewable energy supply",
+    "description": "AWS power purchase agreement with NRG for data center electricity",
+    "strategic_importance": "high",
+    "deal_date": "2024-06-01",
+    "annual_recurring": true
+  },
+  {
+    "source": "META",
+    "target": "NEE",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 2000000000,
+    "product": "Renewable energy PPA",
+    "description": "Meta's long-term renewable energy agreements with NextEra for data centers",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "DBRX",
+    "target": "NVDA",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 500000000,
+    "product": "GPU clusters",
+    "description": "Databricks purchases NVIDIA GPUs for Mosaic ML training infrastructure",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "MSFT",
+    "target": "DBRX",
+    "rel_type": "PARTNERS_WITH",
+    "description": "Databricks available on Azure, deep integration with Microsoft data stack",
+    "strategic_importance": "high"
+  },
+  {
+    "source": "AMZN",
+    "target": "DBRX",
+    "rel_type": "PARTNERS_WITH",
+    "description": "Databricks on AWS \u2014 majority of Databricks workloads run on AWS",
+    "strategic_importance": "critical"
+  },
+  {
+    "source": "CRM",
+    "target": "NVDA",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 200000000,
+    "product": "AI inference GPUs",
+    "description": "Salesforce using NVIDIA for Einstein GPT AI features",
+    "strategic_importance": "medium",
+    "annual_recurring": true
+  },
+  {
+    "source": "SNOW",
+    "target": "NVDA",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 150000000,
+    "product": "GPU acceleration",
+    "description": "Snowflake GPU-accelerated data processing and Cortex AI",
+    "strategic_importance": "medium",
+    "annual_recurring": true
+  },
+  {
+    "source": "FIGR",
+    "target": "NVDA",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 100000000,
+    "product": "GPUs for robot AI",
+    "description": "Figure AI uses NVIDIA GPUs and Isaac platform for humanoid robot training",
+    "strategic_importance": "high"
+  },
+  {
+    "source": "NVDA",
+    "target": "FIGR",
+    "rel_type": "INVESTS_IN",
+    "amount": 675000000,
+    "description": "NVIDIA participated in Figure AI's $675M Series B round",
+    "strategic_importance": "high",
+    "deal_date": "2024-02-01"
+  },
+  {
+    "source": "MSFT",
+    "target": "FIGR",
+    "rel_type": "INVESTS_IN",
+    "amount": 675000000,
+    "description": "Microsoft invested in Figure AI Series B for humanoid robots",
+    "strategic_importance": "medium",
+    "deal_date": "2024-02-01"
+  },
+  {
+    "source": "SYM",
+    "target": "NVDA",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 50000000,
+    "product": "AI chips for warehouse robots",
+    "description": "Symbotic uses NVIDIA Jetson/GPU platforms for autonomous warehouse systems",
+    "strategic_importance": "medium"
+  },
+  {
+    "source": "005930.KS",
+    "target": "NVDA",
+    "rel_type": "SUPPLIES",
+    "product": "HBM3E memory",
+    "description": "Samsung supplies HBM3E high-bandwidth memory for NVIDIA GPUs",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "005930.KS",
+    "target": "000660.KS",
+    "rel_type": "COMPETES_WITH",
+    "description": "HBM memory competition \u2014 SK Hynix leads but Samsung closing gap",
+    "strategic_importance": "critical"
+  },
+  {
+    "source": "LMBD",
+    "target": "NVDA",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 800000000,
+    "product": "H100/B200 GPUs",
+    "description": "Lambda purchases NVIDIA GPUs for their cloud GPU service",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "TGAI",
+    "target": "NVDA",
+    "rel_type": "CUSTOMER_OF",
+    "amount": 200000000,
+    "product": "GPU clusters",
+    "description": "Together AI GPU infrastructure for inference and fine-tuning platform",
+    "strategic_importance": "medium",
+    "annual_recurring": true
+  },
+  {
+    "source": "NVDA",
+    "target": "TGAI",
+    "rel_type": "INVESTS_IN",
+    "amount": 100000000,
+    "description": "NVIDIA invested in Together AI Series A",
+    "strategic_importance": "medium",
+    "deal_date": "2024-03-01"
+  },
+  {
+    "source": "CRWD",
+    "target": "NVDA",
+    "rel_type": "PARTNERS_WITH",
+    "description": "CrowdStrike uses NVIDIA AI acceleration for real-time threat detection",
+    "strategic_importance": "medium"
+  },
+  {
+    "source": "CRWD",
+    "target": "AMZN",
+    "rel_type": "PARTNERS_WITH",
+    "description": "CrowdStrike Falcon deeply integrated with AWS security services",
+    "strategic_importance": "high"
+  },
+  {
+    "source": "PANW",
+    "target": "GOOG",
+    "rel_type": "PARTNERS_WITH",
+    "description": "Palo Alto Networks uses Google Cloud AI for Cortex XSIAM platform",
+    "strategic_importance": "high",
+    "deal_date": "2024-05-01"
+  },
+  {
+    "source": "ETN",
+    "target": "EQIX",
+    "rel_type": "SUPPLIES",
+    "product": "Power distribution equipment",
+    "description": "Eaton UPS and power distribution for Equinix data centers",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "ETN",
+    "target": "DLR",
+    "rel_type": "SUPPLIES",
+    "product": "Electrical infrastructure",
+    "description": "Eaton power management for Digital Realty facilities",
+    "strategic_importance": "high",
+    "annual_recurring": true
+  },
+  {
+    "source": "SBGSF",
+    "target": "EQIX",
+    "rel_type": "SUPPLIES",
+    "product": "Power & cooling management",
+    "description": "Schneider Electric provides integrated power and cooling for Equinix",
+    "strategic_importance": "high",
+    "annual_recurring": true
   }
 ]

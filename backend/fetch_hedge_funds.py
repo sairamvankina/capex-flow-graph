@@ -29,7 +29,9 @@ TARGET_TICKERS = {
     "NVDA", "MSFT", "GOOG", "GOOGL", "AMZN", "META", "AAPL", "TSLA",
     "TSM", "ASML", "ARM", "AMD", "INTC", "AVGO", "QCOM", "MRVL",
     "MU", "DELL", "SMCI", "VRT", "ETN", "ANET", "CIEN", "PLTR",
-    "CRM", "SNOW", "CEG", "VST",
+    "CRM", "SNOW", "CEG", "VST", "CSCO", "JNPR", "INFN", "NNE",
+    "OKLO", "NEE", "NRG", "NVT", "MOD", "AI", "PATH", "SYM",
+    "CRWD", "PANW", "ORCL", "EQIX", "DLR", "COHR",
 }
 
 

@@ -11,6 +11,9 @@ ETFS = [
     {"ticker": "QQQ", "name": "Invesco QQQ (Nasdaq 100)", "sector": "Technology"},
     {"ticker": "XLK", "name": "Technology Select SPDR", "sector": "Technology"},
     {"ticker": "IGV", "name": "iShares Expanded Tech-Software", "sector": "Software"},
+    {"ticker": "DRAM", "name": "Roundhill Memory ETF", "sector": "Memory/DRAM"},
+    {"ticker": "SOXL", "name": "Direxion 3x Semiconductor Bull", "sector": "Semiconductors (Leveraged)"},
+    {"ticker": "PSI", "name": "Invesco Semiconductors ETF", "sector": "Semiconductors"},
 ]
 
 

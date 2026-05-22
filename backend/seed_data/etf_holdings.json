@@ -293,5 +293,132 @@
         "weight": 0.0377386
       }
     ]
+  },
+  "DRAM": {
+    "ticker": "DRAM",
+    "name": "Roundhill Memory ETF",
+    "sector": "Memory/DRAM",
+    "ytd_return": null,
+    "total_assets": 2477708032,
+    "holdings": [
+      {
+        "ticker": "000660.KS",
+        "name": "SK Hynix Inc",
+        "weight": 0.2593653
+      },
+      {
+        "ticker": "005930.KS",
+        "name": "Samsung Electronics Co Ltd",
+        "weight": 0.216169
+      },
+      {
+        "ticker": "FGXXX",
+        "name": "First American Government Obligs X",
+        "weight": 0.1321159
+      },
+      {
+        "ticker": "285A.T",
+        "name": "Kioxia Holdings Corp Ordinary Shares",
+        "weight": 0.061002303
+      },
+      {
+        "ticker": "SNDK",
+        "name": "SanDisk Corp Ordinary Shares",
+        "weight": 0.0541925
+      },
+      {
+        "ticker": "STX",
+        "name": "Seagate Technology Holdings PLC",
+        "weight": 0.0525681
+      },
+      {
+        "ticker": "WDC",
+        "name": "Western Digital Corp",
+        "weight": 0.0497319
+      }
+    ]
+  },
+  "SOXL": {
+    "ticker": "SOXL",
+    "name": "Direxion 3x Semiconductor Bull",
+    "sector": "Semiconductors (Leveraged)",
+    "ytd_return": 202.81966,
+    "total_assets": 17318807552,
+    "holdings": [
+      {
+        "ticker": "AMD",
+        "name": "Advanced Micro Devices Inc",
+        "weight": 0.044670902
+      },
+      {
+        "ticker": "AVGO",
+        "name": "Broadcom Inc",
+        "weight": 0.0441959
+      },
+      {
+        "ticker": "MU",
+        "name": "Micron Technology Inc",
+        "weight": 0.0424462
+      }
+    ]
+  },
+  "PSI": {
+    "ticker": "PSI",
+    "name": "Invesco Semiconductors ETF",
+    "sector": "Semiconductors",
+    "ytd_return": 69.43636,
+    "total_assets": 1991072640,
+    "holdings": [
+      {
+        "ticker": "MXL",
+        "name": "MaxLinear Inc",
+        "weight": 0.0799618
+      },
+      {
+        "ticker": "AMD",
+        "name": "Advanced Micro Devices Inc",
+        "weight": 0.0626743
+      },
+      {
+        "ticker": "TXN",
+        "name": "Texas Instruments Inc",
+        "weight": 0.04982
+      },
+      {
+        "ticker": "AVGO",
+        "name": "Broadcom Inc",
+        "weight": 0.0484846
+      },
+      {
+        "ticker": "MU",
+        "name": "Micron Technology Inc",
+        "weight": 0.0467868
+      },
+      {
+        "ticker": "KLAC",
+        "name": "KLA Corp",
+        "weight": 0.0439961
+      },
+      {
+        "ticker": "LRCX",
+        "name": "Lam Research Corp",
+        "weight": 0.0399221
+      },
+      {
+        "ticker": "AMAT",
+        "name": "Applied Materials Inc",
+        "weight": 0.0394793
+      },
+      {
+        "ticker": "NVDA",
+        "name": "NVIDIA Corp",
+        "weight": 0.0391299
+      },
+      {
+        "ticker": "TSEM.TA",
+        "name": "Tower Semiconductor Ltd",
+        "weight": 0.036186
+      }
+    ]
   }
 }

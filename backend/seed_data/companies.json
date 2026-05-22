@@ -294,5 +294,173 @@
     "pick_and_shovel": true,
     "competitive_moat": "moderate",
     "sentiment": "neutral"
+  },
+  {
+    "ticker": "SBGSF",
+    "name": "Schneider Electric",
+    "category": "cooling",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "NVT",
+    "name": "nVent Electric",
+    "category": "cooling",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "MOD",
+    "name": "Modine Manufacturing",
+    "category": "cooling",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "CSCO",
+    "name": "Cisco Systems",
+    "category": "networking",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "JNPR",
+    "name": "Juniper Networks",
+    "category": "networking",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "INFN",
+    "name": "Infinera (Nokia)",
+    "category": "photonics",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "NNE",
+    "name": "Nano Nuclear Energy",
+    "category": "energy",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "OKLO",
+    "name": "Oklo (Sam Altman)",
+    "category": "energy",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "NEE",
+    "name": "NextEra Energy",
+    "category": "energy",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "NRG",
+    "name": "NRG Energy",
+    "category": "energy",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "AI",
+    "name": "C3.ai",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "weak",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "DBRX",
+    "name": "Databricks (private)",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "PATH",
+    "name": "UiPath",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "HUBS",
+    "name": "HubSpot (AI CRM)",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "SYM",
+    "name": "Symbotic (Warehouse AI)",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "FIGR",
+    "name": "Figure AI (Humanoid)",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "005930.KS",
+    "name": "Samsung Electronics",
+    "category": "memory",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "LMBD",
+    "name": "Lambda (Cloud GPU)",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "weak",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "TGAI",
+    "name": "Together AI",
+    "category": "infra",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "CRWD",
+    "name": "CrowdStrike",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "PANW",
+    "name": "Palo Alto Networks",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
   }
 ]
