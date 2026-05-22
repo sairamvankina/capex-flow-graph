@@ -3,3 +3,6 @@ neo4j>=5.17
 fastapi>=0.110
 uvicorn>=0.27
 python-dotenv>=1.0
+finnhub-python>=2.4
+edgartools>=0.30
+requests>=2.31

@@ -85,6 +85,16 @@ def seed(tx, companies, relationships, financials):
         tx.run(query, source=rel["source"], target=rel["target"], props=props)
 
 
+def seed_revenue_breakdown(tx, revenue_data):
+    for ticker, data in revenue_data.items():
+        breakdown_json = json.dumps(data["segments"])
+        tx.run("""
+            MATCH (c:Company {ticker: $ticker})
+            SET c.revenueBreakdown = $breakdown,
+                c.revenueNotes = $notes
+        """, ticker=ticker, breakdown=breakdown_json, notes=data.get("notes", ""))
+
+
 def main():
     companies = load_json("seed_data/companies.json")
     relationships = load_json("seed_data/relationships.json")
@@ -98,10 +108,20 @@ def main():
         print("Seeding without financial data...")
         financials = {}
 
+    revenue_path = Path(__file__).parent / "seed_data/revenue_breakdown.json"
+    if revenue_path.exists():
+        with open(revenue_path) as f:
+            revenue_data = json.load(f)
+    else:
+        revenue_data = {}
+
     driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
     with driver.session() as session:
         session.execute_write(create_constraints)
         session.execute_write(lambda tx: seed(tx, companies, relationships, financials))
+        if revenue_data:
+            session.execute_write(lambda tx: seed_revenue_breakdown(tx, revenue_data))
+            print(f"Added revenue breakdown for {len(revenue_data)} companies.")
     driver.close()
     print(f"Seeded {len(companies)} companies and {len(relationships)} relationships.")
 

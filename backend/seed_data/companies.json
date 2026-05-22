@@ -8,46 +8,6 @@
     "sentiment": "bullish"
   },
   {
-    "ticker": "TSM",
-    "name": "Taiwan Semiconductor",
-    "category": "chips",
-    "pick_and_shovel": true,
-    "competitive_moat": "strong",
-    "sentiment": "bullish"
-  },
-  {
-    "ticker": "ASML",
-    "name": "ASML Holding",
-    "category": "chips",
-    "pick_and_shovel": true,
-    "competitive_moat": "strong",
-    "sentiment": "bullish"
-  },
-  {
-    "ticker": "ARM",
-    "name": "ARM Holdings",
-    "category": "chips",
-    "pick_and_shovel": true,
-    "competitive_moat": "strong",
-    "sentiment": "bullish"
-  },
-  {
-    "ticker": "MU",
-    "name": "Micron Technology",
-    "category": "memory",
-    "pick_and_shovel": true,
-    "competitive_moat": "moderate",
-    "sentiment": "bullish"
-  },
-  {
-    "ticker": "000660.KS",
-    "name": "SK Hynix",
-    "category": "memory",
-    "pick_and_shovel": true,
-    "competitive_moat": "strong",
-    "sentiment": "bullish"
-  },
-  {
     "ticker": "MSFT",
     "name": "Microsoft",
     "category": "mag7",
@@ -80,6 +40,46 @@
     "sentiment": "bullish"
   },
   {
+    "ticker": "AAPL",
+    "name": "Apple",
+    "category": "mag7",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "TSLA",
+    "name": "Tesla",
+    "category": "mag7",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "TSM",
+    "name": "Taiwan Semiconductor",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ASML",
+    "name": "ASML Holding",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ARM",
+    "name": "ARM Holdings",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
     "ticker": "AMD",
     "name": "Advanced Micro Devices",
     "category": "chips",
@@ -104,6 +104,54 @@
     "sentiment": "bullish"
   },
   {
+    "ticker": "QCOM",
+    "name": "Qualcomm",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "MRVL",
+    "name": "Marvell Technology",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "MU",
+    "name": "Micron Technology",
+    "category": "memory",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "000660.KS",
+    "name": "SK Hynix",
+    "category": "memory",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "DELL",
+    "name": "Dell Technologies",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "SMCI",
+    "name": "Super Micro Computer",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
     "ticker": "VRT",
     "name": "Vertiv Holdings",
     "category": "cooling",
@@ -117,6 +165,22 @@
     "category": "energy",
     "pick_and_shovel": true,
     "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "VST",
+    "name": "Vistra Corp",
+    "category": "energy",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "CEG",
+    "name": "Constellation Energy",
+    "category": "energy",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
     "sentiment": "bullish"
   },
   {
@@ -136,8 +200,96 @@
     "sentiment": "neutral"
   },
   {
-    "ticker": "SMCI",
-    "name": "Super Micro Computer",
+    "ticker": "COHR",
+    "name": "Coherent Corp",
+    "category": "photonics",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "MSFT-AI",
+    "name": "OpenAI (Microsoft-backed)",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "PLTR",
+    "name": "Palantir Technologies",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "CRM",
+    "name": "Salesforce (Einstein AI)",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "SNOW",
+    "name": "Snowflake",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "NBIS",
+    "name": "Nebius Group (ex-Yandex)",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "CRWV",
+    "name": "CoreWeave",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "XAI",
+    "name": "xAI (Elon Musk)",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ANTHR",
+    "name": "Anthropic",
+    "category": "ai_software",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ORCL",
+    "name": "Oracle Cloud",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "EQIX",
+    "name": "Equinix (Data Centers)",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "DLR",
+    "name": "Digital Realty",
     "category": "infra",
     "pick_and_shovel": true,
     "competitive_moat": "moderate",

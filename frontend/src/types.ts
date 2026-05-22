@@ -13,6 +13,7 @@ export interface CompanyData {
   pickAndShovel: boolean;
   competitiveMoat: "weak" | "moderate" | "strong";
   sentiment: "bearish" | "neutral" | "bullish";
+  revenueBreakdown: string | null;
 }
 
 export interface RelationshipData {

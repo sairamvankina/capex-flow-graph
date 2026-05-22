@@ -29,3 +29,9 @@ I want to identify bottle necks and high demand products and services and which 
 9. Chips, chip design, chip software, 
 
 Add filter by sector as well and beside each sector last 6 months growth,filter by company name or ticker, 
+
+also contnue to capex cycle example nvia invested in nebius nebius will also invest in other
+  companies use those as well and also add revenue break dwn as well like google have Ads fro
+  google, youtube, etc, Cloud revenue, waymo, chips reveneue, deepmind revenue etc  
+
+  

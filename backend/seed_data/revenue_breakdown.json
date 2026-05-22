@@ -1,0 +1,95 @@
+{
+  "NVDA": {
+    "segments": [
+      {"name": "Data Center", "revenue": 115200000000, "pct": 0.88, "growth": 1.54},
+      {"name": "Gaming", "revenue": 11400000000, "pct": 0.09, "growth": 0.15},
+      {"name": "Professional Visualization", "revenue": 2100000000, "pct": 0.016, "growth": 0.10},
+      {"name": "Automotive", "revenue": 1700000000, "pct": 0.013, "growth": 0.55},
+      {"name": "OEM & Other", "revenue": 800000000, "pct": 0.006, "growth": -0.05}
+    ],
+    "notes": "Data Center is 88% of revenue and growing 154% YoY. Almost entirely AI GPU sales."
+  },
+  "GOOG": {
+    "segments": [
+      {"name": "Google Search & Other", "revenue": 198000000000, "pct": 0.56, "growth": 0.12},
+      {"name": "YouTube Ads", "revenue": 50000000000, "pct": 0.14, "growth": 0.15},
+      {"name": "Google Cloud", "revenue": 43000000000, "pct": 0.12, "growth": 0.26},
+      {"name": "Google Network (AdSense)", "revenue": 33000000000, "pct": 0.09, "growth": 0.02},
+      {"name": "Google Subscriptions/Platforms", "revenue": 15000000000, "pct": 0.04, "growth": 0.20},
+      {"name": "Other Bets (Waymo, DeepMind, Verily)", "revenue": 4000000000, "pct": 0.01, "growth": 0.35}
+    ],
+    "notes": "Cloud growing 26% driven by AI. Other Bets includes Waymo (robotaxis) and was previously DeepMind (now under Google). Advertising still 80% of revenue."
+  },
+  "MSFT": {
+    "segments": [
+      {"name": "Intelligent Cloud (Azure)", "revenue": 105000000000, "pct": 0.42, "growth": 0.23},
+      {"name": "Productivity (Office 365, LinkedIn)", "revenue": 85000000000, "pct": 0.34, "growth": 0.12},
+      {"name": "Personal Computing (Windows, Xbox, Surface)", "revenue": 60000000000, "pct": 0.24, "growth": 0.05}
+    ],
+    "notes": "Azure growing 23% with AI services as key driver. Copilot revenue across all segments. OpenAI partnership drives Azure consumption."
+  },
+  "AMZN": {
+    "segments": [
+      {"name": "AWS (Cloud)", "revenue": 105000000000, "pct": 0.18, "growth": 0.19},
+      {"name": "Online Stores", "revenue": 270000000000, "pct": 0.47, "growth": 0.08},
+      {"name": "Third-Party Seller Services", "revenue": 150000000000, "pct": 0.26, "growth": 0.12},
+      {"name": "Advertising", "revenue": 55000000000, "pct": 0.10, "growth": 0.24},
+      {"name": "Subscriptions (Prime)", "revenue": 42000000000, "pct": 0.07, "growth": 0.14}
+    ],
+    "notes": "AWS is only 18% of revenue but ~60% of operating profit. AI driving AWS acceleration. Advertising is fastest-growing segment."
+  },
+  "META": {
+    "segments": [
+      {"name": "Family of Apps (FB, IG, WhatsApp Ads)", "revenue": 155000000000, "pct": 0.97, "growth": 0.22},
+      {"name": "Reality Labs (Quest, Metaverse)", "revenue": 5000000000, "pct": 0.03, "growth": 0.10}
+    ],
+    "notes": "97% advertising revenue. Reality Labs losing $15B+/year. AI improving ad targeting is the real AI revenue story. LLaMA is cost center, not revenue."
+  },
+  "AAPL": {
+    "segments": [
+      {"name": "iPhone", "revenue": 200000000000, "pct": 0.52, "growth": 0.02},
+      {"name": "Services (App Store, iCloud, Apple TV+)", "revenue": 96000000000, "pct": 0.25, "growth": 0.14},
+      {"name": "Mac", "revenue": 30000000000, "pct": 0.08, "growth": 0.05},
+      {"name": "iPad", "revenue": 27000000000, "pct": 0.07, "growth": 0.07},
+      {"name": "Wearables (Watch, AirPods, Vision Pro)", "revenue": 37000000000, "pct": 0.10, "growth": -0.03}
+    ],
+    "notes": "Services is highest margin segment (~70% gross margin vs 36% for products). Apple Intelligence driving iPhone upgrade cycle narrative."
+  },
+  "TSLA": {
+    "segments": [
+      {"name": "Automotive Sales", "revenue": 78000000000, "pct": 0.80, "growth": 0.02},
+      {"name": "Energy Generation & Storage", "revenue": 10000000000, "pct": 0.10, "growth": 0.50},
+      {"name": "Services & Other", "revenue": 8000000000, "pct": 0.08, "growth": 0.20},
+      {"name": "Automotive Regulatory Credits", "revenue": 2000000000, "pct": 0.02, "growth": -0.10}
+    ],
+    "notes": "Auto margins compressed to ~17%. Energy storage growing 50%+. FSD/Robotaxi is future optionality, not current revenue."
+  },
+  "AVGO": {
+    "segments": [
+      {"name": "AI/Custom Silicon (ASICs, TPUs)", "revenue": 12000000000, "pct": 0.24, "growth": 2.00},
+      {"name": "Networking (Ethernet, Switching)", "revenue": 14000000000, "pct": 0.28, "growth": 0.30},
+      {"name": "Infrastructure Software (VMware)", "revenue": 20000000000, "pct": 0.40, "growth": 0.15},
+      {"name": "Broadband/Storage", "revenue": 4000000000, "pct": 0.08, "growth": -0.10}
+    ],
+    "notes": "AI ASIC revenue tripling YoY (Google TPU, Meta MTIA). VMware acquisition ($69B) now 40% of revenue. Total AI revenue ~$12B."
+  },
+  "AMD": {
+    "segments": [
+      {"name": "Data Center (EPYC + MI300)", "revenue": 13000000000, "pct": 0.52, "growth": 0.80},
+      {"name": "Client (Ryzen PCs)", "revenue": 7000000000, "pct": 0.28, "growth": 0.25},
+      {"name": "Gaming (Radeon, Console)", "revenue": 3000000000, "pct": 0.12, "growth": -0.40},
+      {"name": "Embedded", "revenue": 2000000000, "pct": 0.08, "growth": -0.20}
+    ],
+    "notes": "Data Center now >50% of revenue for first time. MI300X AI GPU revenue $5B+ in 2024. Gaming declining as console cycle ends."
+  },
+  "TSM": {
+    "segments": [
+      {"name": "Smartphone", "revenue": 1400000000000, "pct": 0.34, "growth": 0.10},
+      {"name": "HPC (AI/Data Center)", "revenue": 2100000000000, "pct": 0.51, "growth": 0.60},
+      {"name": "IoT", "revenue": 300000000000, "pct": 0.07, "growth": 0.05},
+      {"name": "Automotive", "revenue": 200000000000, "pct": 0.05, "growth": 0.15},
+      {"name": "Digital Consumer Electronics", "revenue": 100000000000, "pct": 0.02, "growth": -0.10}
+    ],
+    "notes": "HPC (AI/Data Center) now 51% of revenue, driven by NVIDIA, AMD, Broadcom AI chip demand. Revenue in TWD."
+  }
+}

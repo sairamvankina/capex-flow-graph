@@ -61,6 +61,37 @@ export function DetailPanel({ company, relationships, onClose }: DetailPanelProp
             <Row label="Pick & Shovel" value={company.pickAndShovel ? "Yes" : "No"} />
           </Section>
 
+          {company.revenueBreakdown && (
+            <Section title="Revenue Breakdown">
+              {(() => {
+                try {
+                  const segments = typeof company.revenueBreakdown === "string"
+                    ? JSON.parse(company.revenueBreakdown)
+                    : company.revenueBreakdown;
+                  return segments.map((seg: { name: string; pct: number; growth: number }, i: number) => (
+                    <div key={i} className="mb-1.5">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-600">{seg.name}</span>
+                        <span className="font-medium">{(seg.pct * 100).toFixed(0)}%</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-indigo-400"
+                            style={{ width: `${Math.min(seg.pct * 100, 100)}%` }}
+                          />
+                        </div>
+                        <span className={`text-[10px] ${seg.growth >= 0 ? "text-green-600" : "text-red-500"}`}>
+                          {seg.growth >= 0 ? "+" : ""}{(seg.growth * 100).toFixed(0)}%
+                        </span>
+                      </div>
+                    </div>
+                  ));
+                } catch { return null; }
+              })()}
+            </Section>
+          )}
+
           {relationships.length > 0 && (
             <Section title="Relationships">
               {relationships.map((rel, i) => (

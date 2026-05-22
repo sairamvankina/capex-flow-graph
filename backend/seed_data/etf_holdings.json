@@ -1,0 +1,297 @@
+{
+  "SMH": {
+    "ticker": "SMH",
+    "name": "VanEck Semiconductor ETF",
+    "sector": "Semiconductors",
+    "ytd_return": 40.68757,
+    "total_assets": 58790612992,
+    "holdings": [
+      {
+        "ticker": "NVDA",
+        "name": "NVIDIA Corp",
+        "weight": 0.1808606
+      },
+      {
+        "ticker": "TSM",
+        "name": "Taiwan Semiconductor Manufacturing Co Ltd ADR",
+        "weight": 0.1058562
+      },
+      {
+        "ticker": "AVGO",
+        "name": "Broadcom Inc",
+        "weight": 0.078333706
+      },
+      {
+        "ticker": "INTC",
+        "name": "Intel Corp",
+        "weight": 0.0714436
+      },
+      {
+        "ticker": "AMD",
+        "name": "Advanced Micro Devices Inc",
+        "weight": 0.0595423
+      },
+      {
+        "ticker": "MU",
+        "name": "Micron Technology Inc",
+        "weight": 0.049776003
+      },
+      {
+        "ticker": "TXN",
+        "name": "Texas Instruments Inc",
+        "weight": 0.0490253
+      },
+      {
+        "ticker": "KLAC",
+        "name": "KLA Corp",
+        "weight": 0.0448522
+      },
+      {
+        "ticker": "ADI",
+        "name": "Analog Devices Inc",
+        "weight": 0.044122
+      },
+      {
+        "ticker": "LRCX",
+        "name": "Lam Research Corp",
+        "weight": 0.041117102
+      }
+    ]
+  },
+  "SOXX": {
+    "ticker": "SOXX",
+    "name": "iShares Semiconductor ETF",
+    "sector": "Semiconductors",
+    "ytd_return": 53.40505,
+    "total_assets": 29566459904,
+    "holdings": [
+      {
+        "ticker": "AMD",
+        "name": "Advanced Micro Devices Inc",
+        "weight": 0.0802963
+      },
+      {
+        "ticker": "AVGO",
+        "name": "Broadcom Inc",
+        "weight": 0.0794587
+      },
+      {
+        "ticker": "MU",
+        "name": "Micron Technology Inc",
+        "weight": 0.076265804
+      },
+      {
+        "ticker": "NVDA",
+        "name": "NVIDIA Corp",
+        "weight": 0.0684937
+      },
+      {
+        "ticker": "INTC",
+        "name": "Intel Corp",
+        "weight": 0.0629858
+      },
+      {
+        "ticker": "MRVL",
+        "name": "Marvell Technology Inc",
+        "weight": 0.061465602
+      },
+      {
+        "ticker": "AMAT",
+        "name": "Applied Materials Inc",
+        "weight": 0.048052203
+      },
+      {
+        "ticker": "MPWR",
+        "name": "Monolithic Power Systems Inc",
+        "weight": 0.0429564
+      },
+      {
+        "ticker": "TXN",
+        "name": "Texas Instruments Inc",
+        "weight": 0.0402931
+      },
+      {
+        "ticker": "NXPI",
+        "name": "NXP Semiconductors NV",
+        "weight": 0.0393242
+      }
+    ]
+  },
+  "QQQ": {
+    "ticker": "QQQ",
+    "name": "Invesco QQQ (Nasdaq 100)",
+    "sector": "Technology",
+    "ytd_return": 8.85925,
+    "total_assets": 440257380352,
+    "holdings": [
+      {
+        "ticker": "NVDA",
+        "name": "NVIDIA Corp",
+        "weight": 0.0853214
+      },
+      {
+        "ticker": "AAPL",
+        "name": "Apple Inc",
+        "weight": 0.0700884
+      },
+      {
+        "ticker": "MSFT",
+        "name": "Microsoft Corp",
+        "weight": 0.053274002
+      },
+      {
+        "ticker": "AMZN",
+        "name": "Amazon.com Inc",
+        "weight": 0.050061002
+      },
+      {
+        "ticker": "GOOGL",
+        "name": "Alphabet Inc Class A",
+        "weight": 0.0394152
+      },
+      {
+        "ticker": "GOOG",
+        "name": "Alphabet Inc Class C",
+        "weight": 0.0365418
+      },
+      {
+        "ticker": "AVGO",
+        "name": "Broadcom Inc",
+        "weight": 0.0348205
+      },
+      {
+        "ticker": "TSLA",
+        "name": "Tesla Inc",
+        "weight": 0.0335116
+      },
+      {
+        "ticker": "META",
+        "name": "Meta Platforms Inc Class A",
+        "weight": 0.0317521
+      },
+      {
+        "ticker": "WMT",
+        "name": "Walmart Inc",
+        "weight": 0.031317
+      }
+    ]
+  },
+  "XLK": {
+    "ticker": "XLK",
+    "name": "Technology Select SPDR",
+    "sector": "Technology",
+    "ytd_return": 10.90018,
+    "total_assets": 103332429824,
+    "holdings": [
+      {
+        "ticker": "NVDA",
+        "name": "NVIDIA Corp",
+        "weight": 0.1478414
+      },
+      {
+        "ticker": "AAPL",
+        "name": "Apple Inc",
+        "weight": 0.1214464
+      },
+      {
+        "ticker": "MSFT",
+        "name": "Microsoft Corp",
+        "weight": 0.092311405
+      },
+      {
+        "ticker": "AVGO",
+        "name": "Broadcom Inc",
+        "weight": 0.060335398
+      },
+      {
+        "ticker": "MU",
+        "name": "Micron Technology Inc",
+        "weight": 0.0432189
+      },
+      {
+        "ticker": "AMD",
+        "name": "Advanced Micro Devices Inc",
+        "weight": 0.0429145
+      },
+      {
+        "ticker": "INTC",
+        "name": "Intel Corp",
+        "weight": 0.0329387
+      },
+      {
+        "ticker": "CSCO",
+        "name": "Cisco Systems Inc",
+        "weight": 0.0268437
+      },
+      {
+        "ticker": "LRCX",
+        "name": "Lam Research Corp",
+        "weight": 0.0239092
+      },
+      {
+        "ticker": "PLTR",
+        "name": "Palantir Technologies Inc Ordinary Shares - Class A",
+        "weight": 0.023595
+      }
+    ]
+  },
+  "IGV": {
+    "ticker": "IGV",
+    "name": "iShares Expanded Tech-Software",
+    "sector": "Software",
+    "ytd_return": -20.62477,
+    "total_assets": 12107472896,
+    "holdings": [
+      {
+        "ticker": "MSFT",
+        "name": "Microsoft Corp",
+        "weight": 0.087913506
+      },
+      {
+        "ticker": "ORCL",
+        "name": "Oracle Corp",
+        "weight": 0.086362496
+      },
+      {
+        "ticker": "PLTR",
+        "name": "Palantir Technologies Inc Ordinary Shares - Class A",
+        "weight": 0.080097
+      },
+      {
+        "ticker": "CRM",
+        "name": "Salesforce Inc",
+        "weight": 0.0667998
+      },
+      {
+        "ticker": "PANW",
+        "name": "Palo Alto Networks Inc",
+        "weight": 0.0585194
+      },
+      {
+        "ticker": "APP",
+        "name": "AppLovin Corp Ordinary Shares - Class A",
+        "weight": 0.048849702
+      },
+      {
+        "ticker": "CRWD",
+        "name": "CrowdStrike Holdings Inc Class A",
+        "weight": 0.0459311
+      },
+      {
+        "ticker": "ADBE",
+        "name": "Adobe Inc",
+        "weight": 0.041292
+      },
+      {
+        "ticker": "INTU",
+        "name": "Intuit Inc",
+        "weight": 0.040760897
+      },
+      {
+        "ticker": "SNPS",
+        "name": "Synopsys Inc",
+        "weight": 0.0377386
+      }
+    ]
+  }
+}

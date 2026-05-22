@@ -18,7 +18,7 @@ def shutdown():
 
 
 @app.get("/graph")
-def get_graph(category: Optional[str] = Query(None)):
+def get_graph(category: Optional[str] = Query(None), include_etfs: bool = Query(False)):
     with driver.session() as session:
         if category:
             node_result = session.run(
@@ -53,11 +53,34 @@ def get_graph(category: Optional[str] = Query(None)):
                     "pickAndShovel": c.get("pickAndShovel"),
                     "competitiveMoat": c.get("competitiveMoat"),
                     "sentiment": c.get("sentiment"),
+                    "revenueBreakdown": c.get("revenueBreakdown"),
                 },
             })
 
+        # Include ETF nodes if requested
+        if include_etfs:
+            etf_result = session.run("MATCH (e:ETF) RETURN e")
+            for record in etf_result:
+                e = record["e"]
+                ticker = e["ticker"]
+                tickers.add(ticker)
+                nodes.append({
+                    "id": ticker,
+                    "type": "etfNode",
+                    "position": {"x": 0, "y": 0},
+                    "data": {
+                        "ticker": ticker,
+                        "name": e.get("name"),
+                        "category": "etf",
+                        "sector": e.get("sector"),
+                        "totalAssets": e.get("totalAssets"),
+                        "ytdReturn": e.get("ytdReturn"),
+                    },
+                })
+
         edge_result = session.run("""
-            MATCH (a:Company)-[r]->(b:Company)
+            MATCH (a)-[r]->(b)
+            WHERE (a:Company OR a:ETF) AND (b:Company OR b:ETF)
             RETURN a.ticker AS source, b.ticker AS target,
                    type(r) AS relType, properties(r) AS props
         """)
@@ -66,7 +89,7 @@ def get_graph(category: Optional[str] = Query(None)):
         for record in edge_result:
             source = record["source"]
             target = record["target"]
-            if category and (source not in tickers or target not in tickers):
+            if source not in tickers or target not in tickers:
                 continue
             rel_type = record["relType"]
             props = record["props"]
@@ -86,6 +109,7 @@ def get_graph(category: Optional[str] = Query(None)):
                     "sourceInfo": props.get("sourceInfo"),
                     "annualRecurring": props.get("annualRecurring"),
                     "status": props.get("status"),
+                    "weight": props.get("weight"),
                 },
             })
 
@@ -105,7 +129,8 @@ def get_company(ticker: str):
         c = record["c"]
 
         rels_result = session.run("""
-            MATCH (c:Company {ticker: $ticker})-[r]-(other:Company)
+            MATCH (c:Company {ticker: $ticker})-[r]-(other)
+            WHERE other:Company OR other:ETF
             RETURN type(r) AS relType, properties(r) AS props,
                    other.ticker AS otherTicker, other.name AS otherName,
                    startNode(r).ticker AS from
