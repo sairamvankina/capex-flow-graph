@@ -28,11 +28,12 @@ const importanceBadge: Record<string, { bg: string; text: string }> = {
 };
 
 export function EdgeDetailPanel({ edge, onClose }: EdgeDetailPanelProps) {
-  if (!edge) return null;
+  if (!edge || !edge.data) return null;
 
   const { data } = edge;
   const color = relTypeColors[data.relType] || "#6b7280";
-  const badge = importanceBadge[data.strategicImportance] || importanceBadge.medium;
+  const importance = data.strategicImportance || "medium";
+  const badge = importanceBadge[importance] || importanceBadge.medium;
 
   return (
     <div className="absolute right-0 top-0 h-full w-96 bg-white shadow-2xl border-l overflow-y-auto z-50">
@@ -65,7 +66,7 @@ export function EdgeDetailPanel({ edge, onClose }: EdgeDetailPanelProps) {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <span className={`text-xs px-2 py-0.5 rounded-full ${badge.bg} ${badge.text} font-medium`}>
-              {data.strategicImportance.toUpperCase()}
+              {importance.toUpperCase()}
             </span>
             {data.status && (
               <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-medium">

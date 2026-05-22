@@ -5,6 +5,8 @@
     "sector": "Semiconductors",
     "ytd_return": 40.68757,
     "total_assets": 58790612992,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "NVDA",
@@ -56,7 +58,8 @@
         "name": "Lam Research Corp",
         "weight": 0.041117102
       }
-    ]
+    ],
+    "source": "yfinance"
   },
   "SOXX": {
     "ticker": "SOXX",
@@ -64,6 +67,8 @@
     "sector": "Semiconductors",
     "ytd_return": 53.40505,
     "total_assets": 29566459904,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "AMD",
@@ -115,7 +120,8 @@
         "name": "NXP Semiconductors NV",
         "weight": 0.0393242
       }
-    ]
+    ],
+    "source": "yfinance"
   },
   "QQQ": {
     "ticker": "QQQ",
@@ -123,6 +129,8 @@
     "sector": "Technology",
     "ytd_return": 8.85925,
     "total_assets": 440257380352,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "NVDA",
@@ -174,7 +182,8 @@
         "name": "Walmart Inc",
         "weight": 0.031317
       }
-    ]
+    ],
+    "source": "yfinance"
   },
   "XLK": {
     "ticker": "XLK",
@@ -182,6 +191,8 @@
     "sector": "Technology",
     "ytd_return": 10.90018,
     "total_assets": 103332429824,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "NVDA",
@@ -233,7 +244,8 @@
         "name": "Palantir Technologies Inc Ordinary Shares - Class A",
         "weight": 0.023595
       }
-    ]
+    ],
+    "source": "yfinance"
   },
   "IGV": {
     "ticker": "IGV",
@@ -241,6 +253,8 @@
     "sector": "Software",
     "ytd_return": -20.62477,
     "total_assets": 12107472896,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "MSFT",
@@ -292,7 +306,8 @@
         "name": "Synopsys Inc",
         "weight": 0.0377386
       }
-    ]
+    ],
+    "source": "yfinance"
   },
   "DRAM": {
     "ticker": "DRAM",
@@ -300,6 +315,8 @@
     "sector": "Memory/DRAM",
     "ytd_return": null,
     "total_assets": 2477708032,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "000660.KS",
@@ -336,7 +353,8 @@
         "name": "Western Digital Corp",
         "weight": 0.0497319
       }
-    ]
+    ],
+    "source": "yfinance"
   },
   "SOXL": {
     "ticker": "SOXL",
@@ -344,6 +362,8 @@
     "sector": "Semiconductors (Leveraged)",
     "ytd_return": 202.81966,
     "total_assets": 17318807552,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "AMD",
@@ -360,7 +380,8 @@
         "name": "Micron Technology Inc",
         "weight": 0.0424462
       }
-    ]
+    ],
+    "source": "yfinance"
   },
   "PSI": {
     "ticker": "PSI",
@@ -368,6 +389,8 @@
     "sector": "Semiconductors",
     "ytd_return": 69.43636,
     "total_assets": 1991072640,
+    "expense_ratio": null,
+    "sector_exposure": null,
     "holdings": [
       {
         "ticker": "MXL",
@@ -419,6 +442,7 @@
         "name": "Tower Semiconductor Ltd",
         "weight": 0.036186
       }
-    ]
+    ],
+    "source": "yfinance"
   }
 }

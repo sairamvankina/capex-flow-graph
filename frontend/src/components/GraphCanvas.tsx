@@ -171,6 +171,8 @@ function GraphCanvasInner() {
 
   const onEdgeClick: EdgeMouseHandler = useCallback((_event, edge) => {
     setSelectedCompany(null);
+    setSelectedEtf(null);
+    if (!edge.data) return;
     setSelectedEdge({
       source: edge.source,
       target: edge.target,
