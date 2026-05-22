@@ -22,8 +22,9 @@ import { HedgeFundNode } from "./HedgeFundNode";
 import { RelationshipEdge } from "./RelationshipEdge";
 import { DetailPanel } from "./DetailPanel";
 import { EdgeDetailPanel } from "./EdgeDetailPanel";
+import { EtfDetailPanel } from "./EtfDetailPanel";
 import { getLayoutedElements, type LayoutMode } from "../layout/elkLayout";
-import { fetchGraph, fetchCompanyDetail } from "../api/graphApi";
+import { fetchGraph, fetchCompanyDetail, fetchEtfDetail, type EtfDetail } from "../api/graphApi";
 import type { Category, CompanyData, RelationshipData } from "../types";
 import { categoryColors, categoryLabels } from "../utils/colors";
 import { useDarkMode } from "../hooks/useDarkMode";
@@ -57,6 +58,7 @@ function GraphCanvasInner() {
   const [selectedRelationships, setSelectedRelationships] = useState<
     Array<{ relType: string; direction: "incoming" | "outgoing"; otherTicker: string; otherName: string; props: Record<string, unknown> }>
   >([]);
+  const [selectedEtf, setSelectedEtf] = useState<EtfDetail | null>(null);
   const [selectedEdge, setSelectedEdge] = useState<{
     source: string;
     target: string;
@@ -150,6 +152,17 @@ function GraphCanvasInner() {
 
   const onNodeClick: NodeMouseHandler = useCallback(async (_event, node) => {
     setSelectedEdge(null);
+    setSelectedEtf(null);
+    setSelectedCompany(null);
+
+    if (node.type === "etfNode") {
+      const detail = await fetchEtfDetail(node.id);
+      if (!detail.error) setSelectedEtf(detail);
+      return;
+    }
+
+    if (node.type === "hedgeFundNode") return;
+
     const detail = await fetchCompanyDetail(node.id);
     if (detail.error) return;
     setSelectedCompany(detail.company as unknown as CompanyData);
@@ -365,6 +378,11 @@ function GraphCanvasInner() {
         company={selectedCompany}
         relationships={selectedRelationships}
         onClose={() => setSelectedCompany(null)}
+      />
+
+      <EtfDetailPanel
+        data={selectedEtf}
+        onClose={() => setSelectedEtf(null)}
       />
 
       <EdgeDetailPanel

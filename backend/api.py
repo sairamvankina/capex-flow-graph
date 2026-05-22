@@ -201,6 +201,43 @@ def get_hedge_funds():
     return {"funds": list(funds.values())}
 
 
+@app.get("/etf/{ticker}")
+def get_etf(ticker: str):
+    with driver.session() as session:
+        result = session.run(
+            "MATCH (e:ETF {ticker: $ticker}) RETURN e", ticker=ticker
+        )
+        record = result.single()
+        if not record:
+            return {"error": "Not found"}
+
+        e = record["e"]
+
+        holdings_result = session.run("""
+            MATCH (e:ETF {ticker: $ticker})-[r:HOLDS_POSITION]->(c:Company)
+            RETURN c.ticker AS ticker, c.name AS name, c.category AS category,
+                   c.marketCap AS marketCap, c.revenueGrowth AS revenueGrowth,
+                   r.weight AS weight
+            ORDER BY r.weight DESC
+        """, ticker=ticker)
+
+        holdings = []
+        for h in holdings_result:
+            holdings.append({
+                "ticker": h["ticker"],
+                "name": h["name"],
+                "category": h["category"],
+                "marketCap": h["marketCap"],
+                "revenueGrowth": h["revenueGrowth"],
+                "weight": h["weight"],
+            })
+
+        return {
+            "etf": dict(e),
+            "holdings": holdings,
+        }
+
+
 @app.get("/company/{ticker}")
 def get_company(ticker: str):
     with driver.session() as session:

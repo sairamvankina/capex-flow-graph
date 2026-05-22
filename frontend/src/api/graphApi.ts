@@ -20,3 +20,28 @@ export async function fetchCompanyDetail(ticker: string): Promise<CompanyDetail>
   const res = await fetch(`${BASE}/company/${ticker}`);
   return res.json();
 }
+
+export interface EtfDetail {
+  etf: {
+    ticker: string;
+    name: string;
+    sector: string;
+    totalAssets: number | null;
+    ytdReturn: number | null;
+    category: string;
+  };
+  holdings: Array<{
+    ticker: string;
+    name: string;
+    category: string;
+    marketCap: number | null;
+    revenueGrowth: number | null;
+    weight: number;
+  }>;
+  error?: string;
+}
+
+export async function fetchEtfDetail(ticker: string): Promise<EtfDetail> {
+  const res = await fetch(`${BASE}/etf/${ticker}`);
+  return res.json();
+}
