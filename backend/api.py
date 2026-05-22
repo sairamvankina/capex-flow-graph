@@ -18,7 +18,11 @@ def shutdown():
 
 
 @app.get("/graph")
-def get_graph(category: Optional[str] = Query(None), include_etfs: bool = Query(False)):
+def get_graph(
+    category: Optional[str] = Query(None),
+    include_etfs: bool = Query(False),
+    include_hedge_funds: bool = Query(False),
+):
     with driver.session() as session:
         if category:
             node_result = session.run(
@@ -78,6 +82,27 @@ def get_graph(category: Optional[str] = Query(None), include_etfs: bool = Query(
                     },
                 })
 
+        if include_hedge_funds:
+            hf_result = session.run("MATCH (h:HedgeFund) RETURN h")
+            for record in hf_result:
+                h = record["h"]
+                name = h["name"]
+                node_id = f"HF_{name.replace(' ', '_')}"
+                tickers.add(node_id)
+                nodes.append({
+                    "id": node_id,
+                    "type": "hedgeFundNode",
+                    "position": {"x": 0, "y": 0},
+                    "data": {
+                        "name": name,
+                        "cik": h.get("cik"),
+                        "filingDate": h.get("filingDate"),
+                        "reportPeriod": h.get("reportPeriod"),
+                        "totalPortfolioValue": h.get("totalPortfolioValue"),
+                        "category": "hedge_fund",
+                    },
+                })
+
         edge_result = session.run("""
             MATCH (a)-[r]->(b)
             WHERE (a:Company OR a:ETF) AND (b:Company OR b:ETF)
@@ -113,7 +138,67 @@ def get_graph(category: Optional[str] = Query(None), include_etfs: bool = Query(
                 },
             })
 
+        if include_hedge_funds:
+            hf_edge_result = session.run("""
+                MATCH (h:HedgeFund)-[r:HOLDS_POSITION]->(c:Company)
+                RETURN h.name AS fundName, c.ticker AS ticker,
+                       r.shares AS shares, r.value AS value, r.filingDate AS filingDate
+            """)
+            for record in hf_edge_result:
+                fund_id = f"HF_{record['fundName'].replace(' ', '_')}"
+                ticker = record["ticker"]
+                if fund_id in tickers and ticker in tickers:
+                    edges.append({
+                        "id": f"{fund_id}-{ticker}-HOLDS_POSITION",
+                        "source": fund_id,
+                        "target": ticker,
+                        "type": "relationshipEdge",
+                        "data": {
+                            "relType": "HOLDS_POSITION",
+                            "amount": record["value"],
+                            "shares": record["shares"],
+                            "description": f"{record['fundName']} holds {record['shares']:,} shares",
+                            "strategicImportance": "medium",
+                            "dealDate": record["filingDate"],
+                        },
+                    })
+
     return {"nodes": nodes, "edges": edges}
+
+
+@app.get("/hedge-funds")
+def get_hedge_funds():
+    with driver.session() as session:
+        result = session.run("""
+            MATCH (h:HedgeFund)-[r:HOLDS_POSITION]->(c:Company)
+            RETURN h.name AS fundName, h.cik AS cik,
+                   h.filingDate AS filingDate, h.reportPeriod AS reportPeriod,
+                   h.totalPortfolioValue AS totalValue,
+                   c.ticker AS ticker, c.name AS companyName,
+                   r.shares AS shares, r.value AS value
+            ORDER BY h.name, r.value DESC
+        """)
+
+        funds = {}
+        for record in result:
+            name = record["fundName"]
+            if name not in funds:
+                funds[name] = {
+                    "name": name,
+                    "cik": record["cik"],
+                    "filingDate": record["filingDate"],
+                    "reportPeriod": record["reportPeriod"],
+                    "totalPortfolioValue": record["totalValue"],
+                    "positions": [],
+                }
+            funds[name]["positions"].append({
+                "ticker": record["ticker"],
+                "companyName": record["companyName"],
+                "shares": record["shares"],
+                "value": record["value"],
+            })
+
+    return {"funds": list(funds.values())}
 
 
 @app.get("/company/{ticker}")

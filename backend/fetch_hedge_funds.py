@@ -8,18 +8,21 @@ import json
 from pathlib import Path
 
 try:
-    from edgar import Company, set_identity
+    from edgar import Company, set_identity, configure_http
 except ImportError:
     print("Install edgartools: pip install edgartools")
     exit(1)
 
 set_identity("CapexFlowGraph research@example.com")
+configure_http(use_system_certs=True)
 
 HEDGE_FUNDS = [
     {"name": "Berkshire Hathaway", "cik": "0001067983"},
     {"name": "Bridgewater Associates", "cik": "0001350694"},
     {"name": "Citadel Advisors", "cik": "0001423053"},
     {"name": "Coatue Management", "cik": "0001535392"},
+    {"name": "Tiger Global", "cik": "0001167483"},
+    {"name": "D1 Capital Partners", "cik": "0001802994"},
 ]
 
 TARGET_TICKERS = {
@@ -38,35 +41,41 @@ def fetch_13f_positions():
         try:
             company = Company(fund["cik"])
             filings = company.get_filings(form="13F-HR")
-            latest = filings.latest(1)
+            filing = filings.latest(1)
 
-            if not latest:
-                print(f"  No 13F found")
+            if not filing:
+                print("  No 13F found")
                 continue
 
-            filing = latest[0]
+            thirteenf = filing.obj()
             positions = []
 
-            # Parse the 13F infotable
-            thirteenf = filing.obj()
             if hasattr(thirteenf, "infotable"):
-                for holding in thirteenf.infotable:
-                    ticker = getattr(holding, "ticker", None)
-                    if ticker and ticker in TARGET_TICKERS:
-                        positions.append({
-                            "ticker": ticker,
-                            "shares": getattr(holding, "shares", 0),
-                            "value": getattr(holding, "value", 0),
-                            "name": getattr(holding, "name", ""),
-                        })
+                df = thirteenf.infotable
+                matches = df[df["Ticker"].isin(TARGET_TICKERS)]
+                agg = matches.groupby("Ticker").agg({
+                    "Value": "sum",
+                    "SharesPrnAmount": "sum",
+                    "Issuer": "first",
+                }).reset_index()
+
+                for _, row in agg.iterrows():
+                    positions.append({
+                        "ticker": row["Ticker"],
+                        "shares": int(row["SharesPrnAmount"]),
+                        "value": int(row["Value"]),
+                        "name": row["Issuer"],
+                    })
 
             results[fund["name"]] = {
                 "name": fund["name"],
                 "cik": fund["cik"],
-                "filing_date": str(getattr(filing, "filing_date", "")),
-                "positions": positions,
+                "filing_date": str(filing.filing_date),
+                "report_period": str(getattr(thirteenf, "report_period", "")),
+                "total_portfolio_value": int(thirteenf.total_value) if hasattr(thirteenf, "total_value") else None,
+                "positions": sorted(positions, key=lambda x: x["value"], reverse=True),
             }
-            print(f"  Found {len(positions)} relevant positions")
+            print(f"  Found {len(positions)} relevant positions (filing: {filing.filing_date})")
 
         except Exception as e:
             print(f"  Error: {e}")

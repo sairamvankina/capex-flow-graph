@@ -15,6 +15,7 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import { CompanyNode } from "./CompanyNode";
+import { HedgeFundNode } from "./HedgeFundNode";
 import { RelationshipEdge } from "./RelationshipEdge";
 import { DetailPanel } from "./DetailPanel";
 import { EdgeDetailPanel } from "./EdgeDetailPanel";
@@ -25,7 +26,7 @@ import { fetchGraph, fetchCompanyDetail } from "../api/graphApi";
 import type { Category, CompanyData, RelationshipData } from "../types";
 import { categoryColors } from "../utils/colors";
 
-const nodeTypes = { companyNode: CompanyNode };
+const nodeTypes = { companyNode: CompanyNode, hedgeFundNode: HedgeFundNode };
 const edgeTypes = { relationshipEdge: RelationshipEdge };
 
 export function GraphCanvas() {
@@ -43,11 +44,12 @@ export function GraphCanvas() {
   const [activeCategories, setActiveCategories] = useState<Set<Category>>(
     new Set(["mag7", "chips", "ai_software", "infra", "energy", "cooling", "photonics", "networking", "memory"])
   );
+  const [showHedgeFunds, setShowHedgeFunds] = useState(false);
   const [allNodes, setAllNodes] = useState<Node[]>([]);
   const [allEdges, setAllEdges] = useState<Edge[]>([]);
 
   useEffect(() => {
-    fetchGraph().then(async (data) => {
+    fetchGraph({ includeHedgeFunds: showHedgeFunds }).then(async (data) => {
       const rawNodes: Node[] = data.nodes.map((n) => ({
         id: n.id,
         type: n.type,
@@ -68,19 +70,21 @@ export function GraphCanvas() {
       setNodes(layouted);
       setEdges(layoutedEdges);
     });
-  }, []);
+  }, [showHedgeFunds]);
 
   useEffect(() => {
-    const filteredNodes = allNodes.filter((n) =>
-      activeCategories.has((n.data as unknown as CompanyData).category)
-    );
+    const filteredNodes = allNodes.filter((n) => {
+      const cat = (n.data as unknown as { category: string }).category;
+      if (cat === "hedge_fund") return showHedgeFunds;
+      return activeCategories.has(cat as Category);
+    });
     const nodeIds = new Set(filteredNodes.map((n) => n.id));
     const filteredEdges = allEdges.filter(
       (e) => nodeIds.has(e.source) && nodeIds.has(e.target)
     );
     setNodes(filteredNodes);
     setEdges(filteredEdges);
-  }, [activeCategories, allNodes, allEdges]);
+  }, [activeCategories, allNodes, allEdges, showHedgeFunds]);
 
   const onNodeClick: NodeMouseHandler = useCallback(async (_event, node) => {
     setSelectedEdge(null);
@@ -110,6 +114,18 @@ export function GraphCanvas() {
   return (
     <div className="w-full h-screen relative">
       <FilterBar activeCategories={activeCategories} onToggleCategory={toggleCategory} />
+      <div className="absolute top-14 left-4 z-10">
+        <button
+          onClick={() => setShowHedgeFunds((v) => !v)}
+          className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+            showHedgeFunds
+              ? "bg-violet-100 border-violet-300 text-violet-800"
+              : "bg-white border-gray-200 text-gray-600 hover:border-violet-300"
+          }`}
+        >
+          🏦 Hedge Funds {showHedgeFunds ? "ON" : "OFF"}
+        </button>
+      </div>
       <Legend />
 
       <ReactFlow
