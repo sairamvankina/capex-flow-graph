@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchGraph } from "../api/graphApi";
+import { fetchGraph, fetchEtfDetail, type EtfDetail } from "../api/graphApi";
 import type { CompanyData, Category } from "../types";
 import { categoryColors, categoryLabels } from "../utils/colors";
 import { formatCurrency, formatPercent } from "../utils/formatters";
@@ -32,13 +32,26 @@ const sectorEtfMap: Record<string, string[]> = {
   cooling: [],
 };
 
+interface EtfWithHoldings extends EtfInfo {
+  holdings: Array<{
+    ticker: string;
+    name: string;
+    category: string;
+    marketCap: number | null;
+    revenueGrowth: number | null;
+    weight: number;
+  }>;
+}
+
 export function GrowthPanel() {
   const [dark] = useDarkMode();
   const [sectors, setSectors] = useState<SectorGrowth[]>([]);
+  const [etfs, setEtfs] = useState<EtfWithHoldings[]>([]);
   const [expandedSector, setExpandedSector] = useState<Category | null>(null);
+  const [expandedEtf, setExpandedEtf] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchGraph({ includeEtfs: true }).then((data) => {
+    fetchGraph({ includeEtfs: true }).then(async (data) => {
       const bySector = new Map<Category, CompanyData[]>();
       const etfMap = new Map<string, EtfInfo>();
 
@@ -75,6 +88,21 @@ export function GrowthPanel() {
       }
       sectorData.sort((a, b) => b.avgGrowth - a.avgGrowth);
       setSectors(sectorData);
+
+      // Fetch ETF holdings for the ETF table
+      const etfTickers = Array.from(etfMap.keys());
+      const etfDetails = await Promise.all(
+        etfTickers.map(async (ticker) => {
+          const detail = await fetchEtfDetail(ticker);
+          const info = etfMap.get(ticker)!;
+          return {
+            ...info,
+            holdings: detail.error ? [] : detail.holdings || [],
+          } as EtfWithHoldings;
+        })
+      );
+      etfDetails.sort((a, b) => (b.ytdReturn ?? 0) - (a.ytdReturn ?? 0));
+      setEtfs(etfDetails);
     });
   }, []);
 
@@ -196,6 +224,94 @@ export function GrowthPanel() {
           </div>
         ))}
       </div>
+
+      {/* ETF Rankings Table */}
+      {etfs.length > 0 && (
+        <div className="max-w-5xl mt-10">
+          <div className="flex items-baseline gap-4 mb-1">
+            <h2 className={`text-lg font-bold ${textPrimary}`}>ETF Performance</h2>
+            <span className={`text-xs px-2 py-0.5 rounded-full ${dark ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-600"}`}>
+              YTD Price Return
+            </span>
+          </div>
+          <p className={`text-sm mb-4 ${textMuted}`}>
+            ETFs ranked by year-to-date price return. Click to see top holdings and which companies contribute most to the fund.
+          </p>
+
+          <div className="space-y-2">
+            {etfs.map((etf) => {
+              const ytd = etf.ytdReturn != null ? etf.ytdReturn / 100 : null;
+              const isExpanded = expandedEtf === etf.ticker;
+              return (
+                <div key={etf.ticker} className={`rounded-xl border ${cardBg} overflow-hidden`}>
+                  <button
+                    onClick={() => setExpandedEtf(isExpanded ? null : etf.ticker)}
+                    className="w-full px-5 py-3 flex items-center gap-4 hover:opacity-90 transition-opacity"
+                  >
+                    <span className={`text-sm font-bold w-14 ${dark ? "text-sky-300" : "text-sky-700"}`}>
+                      {etf.ticker}
+                    </span>
+                    <span className={`flex-1 text-left text-sm ${textPrimary}`}>{etf.name}</span>
+                    <span className={`text-xs ${textMuted}`}>{etf.sector}</span>
+                    {etf.totalAssets && (
+                      <span className={`text-xs ${textMuted}`}>{formatCurrency(etf.totalAssets)}</span>
+                    )}
+                    {ytd != null && (
+                      <span className={`text-lg font-bold ${ytd >= 0 ? "text-green-500" : "text-red-500"}`}>
+                        {ytd >= 0 ? "+" : ""}{(ytd * 100).toFixed(1)}%
+                      </span>
+                    )}
+                    <span className={`text-xs ${textMuted}`}>
+                      {etf.holdings.length} holdings
+                    </span>
+                    <span className={`text-xs ${textMuted}`}>{isExpanded ? "▲" : "▼"}</span>
+                  </button>
+
+                  {isExpanded && etf.holdings.length > 0 && (
+                    <div className={`border-t ${dark ? "border-gray-700" : "border-gray-100"} px-5 py-3`}>
+                      <div className={`text-[10px] font-semibold uppercase mb-2 ${textMuted}`}>
+                        Top Holdings (% of Fund)
+                      </div>
+                      <div className={`grid grid-cols-[1fr_70px_90px_80px] gap-2 text-xs font-medium ${textMuted} mb-2 px-1`}>
+                        <span>Company</span>
+                        <span className="text-right">Weight</span>
+                        <span className="text-right">Market Cap</span>
+                        <span className="text-right">Rev Growth</span>
+                      </div>
+                      {etf.holdings.map((h) => (
+                        <div
+                          key={h.ticker}
+                          className={`grid grid-cols-[1fr_70px_90px_80px] gap-2 text-sm py-1.5 px-1 rounded ${
+                            dark ? "hover:bg-gray-700/50" : "hover:bg-gray-50"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="w-2 h-2 rounded-full flex-shrink-0"
+                              style={{ backgroundColor: categoryColors[h.category as Category] || "#6b7280" }}
+                            />
+                            <span className={`font-medium ${textPrimary}`}>{h.ticker}</span>
+                            <span className={`text-xs ${textMuted} truncate`}>{h.name}</span>
+                          </div>
+                          <span className={`text-right font-semibold ${dark ? "text-indigo-300" : "text-indigo-600"}`}>
+                            {(h.weight * 100).toFixed(1)}%
+                          </span>
+                          <span className={`text-right ${textPrimary}`}>{formatCurrency(h.marketCap)}</span>
+                          <span className={`text-right font-medium ${
+                            (h.revenueGrowth ?? 0) >= 0 ? "text-green-500" : "text-red-500"
+                          }`}>
+                            {h.revenueGrowth != null ? formatPercent(h.revenueGrowth) : "N/A"}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
