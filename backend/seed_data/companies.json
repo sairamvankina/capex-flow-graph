@@ -1,0 +1,146 @@
+[
+  {
+    "ticker": "NVDA",
+    "name": "NVIDIA Corporation",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "TSM",
+    "name": "Taiwan Semiconductor",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ASML",
+    "name": "ASML Holding",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ARM",
+    "name": "ARM Holdings",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "MU",
+    "name": "Micron Technology",
+    "category": "memory",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "000660.KS",
+    "name": "SK Hynix",
+    "category": "memory",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "MSFT",
+    "name": "Microsoft",
+    "category": "mag7",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "GOOG",
+    "name": "Alphabet (Google)",
+    "category": "mag7",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "AMZN",
+    "name": "Amazon (AWS)",
+    "category": "mag7",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "META",
+    "name": "Meta Platforms",
+    "category": "mag7",
+    "pick_and_shovel": false,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "AMD",
+    "name": "Advanced Micro Devices",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "INTC",
+    "name": "Intel Corporation",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "weak",
+    "sentiment": "bearish"
+  },
+  {
+    "ticker": "AVGO",
+    "name": "Broadcom",
+    "category": "chips",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "VRT",
+    "name": "Vertiv Holdings",
+    "category": "cooling",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ETN",
+    "name": "Eaton Corporation",
+    "category": "energy",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "ANET",
+    "name": "Arista Networks",
+    "category": "networking",
+    "pick_and_shovel": true,
+    "competitive_moat": "strong",
+    "sentiment": "bullish"
+  },
+  {
+    "ticker": "CIEN",
+    "name": "Ciena Corporation",
+    "category": "photonics",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  },
+  {
+    "ticker": "SMCI",
+    "name": "Super Micro Computer",
+    "category": "infra",
+    "pick_and_shovel": true,
+    "competitive_moat": "moderate",
+    "sentiment": "neutral"
+  }
+]

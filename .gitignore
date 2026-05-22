@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment
+.env
+
+# Cached data (regenerate with fetch_financials.py)
+backend/seed_data/financials_cache.json
+
+# Neo4j data
+neo4j_data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Build
+frontend/dist/
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude
+.claude/
