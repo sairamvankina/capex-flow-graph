@@ -274,6 +274,38 @@ def get_company(ticker: str):
         }
 
 
+@app.post("/refresh")
+def refresh_data(target: str = Query("all")):
+    """Refresh data from external sources and re-seed Neo4j.
+    target: 'all', 'financials', 'etfs', 'hedge_funds'
+    """
+    import subprocess
+    import sys
+
+    results = {}
+    python = sys.executable
+
+    if target in ("all", "financials"):
+        r = subprocess.run([python, "fetch_financials.py"], capture_output=True, text=True, timeout=120)
+        results["financials"] = "ok" if r.returncode == 0 else r.stderr[-200:]
+        if r.returncode == 0:
+            subprocess.run([python, "seed_neo4j.py"], capture_output=True, text=True, timeout=30)
+
+    if target in ("all", "etfs"):
+        r = subprocess.run([python, "fetch_etf_holdings.py"], capture_output=True, text=True, timeout=120)
+        results["etfs"] = "ok" if r.returncode == 0 else r.stderr[-200:]
+        if r.returncode == 0:
+            subprocess.run([python, "seed_etfs.py"], capture_output=True, text=True, timeout=30)
+
+    if target in ("all", "hedge_funds"):
+        r = subprocess.run([python, "fetch_hedge_funds.py"], capture_output=True, text=True, timeout=300)
+        results["hedge_funds"] = "ok" if r.returncode == 0 else r.stderr[-200:]
+        if r.returncode == 0:
+            subprocess.run([python, "seed_hedge_funds.py"], capture_output=True, text=True, timeout=30)
+
+    return {"status": "complete", "results": results}
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

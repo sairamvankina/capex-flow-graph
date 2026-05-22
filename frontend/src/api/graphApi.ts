@@ -45,3 +45,8 @@ export async function fetchEtfDetail(ticker: string): Promise<EtfDetail> {
   const res = await fetch(`${BASE}/etf/${ticker}`);
   return res.json();
 }
+
+export async function refreshData(target: "all" | "financials" | "etfs" | "hedge_funds" = "all"): Promise<{ status: string; results: Record<string, string> }> {
+  const res = await fetch(`${BASE}/refresh?target=${target}`, { method: "POST" });
+  return res.json();
+}
