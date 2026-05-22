@@ -65,4 +65,5 @@ export interface CompanyDetail {
     otherName: string;
     props: Record<string, unknown>;
   }>;
+  error?: string;
 }
