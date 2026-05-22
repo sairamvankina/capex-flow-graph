@@ -12,9 +12,10 @@ const relTypeLabels: Record<string, string> = {
   CUSTOMER_OF: "Customer",
   SUPPLIES: "Supplies",
   PARTNERS_WITH: "Partner",
-  INVESTS_IN: "Investment",
+  INVESTS_IN: "Invests",
   ACQUIRED: "Acquired",
   COMPETES_WITH: "Competes",
+  HOLDS_POSITION: "Holds",
 };
 
 export function RelationshipEdge(props: EdgeProps) {
@@ -41,16 +42,17 @@ export function RelationshipEdge(props: EdgeProps) {
   });
 
   const color = relTypeColors[data?.relType ?? ""] || "#6b7280";
-  const label = relTypeLabels[data?.relType ?? ""] || data?.relType || "";
+  const label = relTypeLabels[data?.relType ?? ""] || data?.relType?.replace(/_/g, " ") || "";
   const amount = data?.amount ? formatCurrency(data.amount) : null;
-  const dealDate = data?.dealDate ? new Date(data.dealDate).getFullYear().toString() : null;
   const importance = data?.strategicImportance;
 
   const strokeWidth =
-    importance === "critical" ? 3 :
-    importance === "high" ? 2 : 1;
+    importance === "critical" ? 3.5 :
+    importance === "high" ? 2.5 :
+    importance === "medium" ? 1.5 : 1;
 
-  const dashArray = data?.relType === "COMPETES_WITH" ? "5,5" : undefined;
+  const dashArray = data?.relType === "COMPETES_WITH" ? "6,4" : undefined;
+  const animated = data?.relType === "INVESTS_IN" || data?.relType === "HOLDS_POSITION";
 
   return (
     <>
@@ -62,24 +64,26 @@ export function RelationshipEdge(props: EdgeProps) {
           stroke: color,
           strokeWidth,
           strokeDasharray: dashArray,
+          opacity: 0.8,
         }}
       />
-      <EdgeLabelRenderer>
-        <div
-          style={{
-            position: "absolute",
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            pointerEvents: "all",
-          }}
-          className="bg-white/90 px-1.5 py-0.5 rounded text-[10px] border shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-        >
-          <div className="font-medium" style={{ color }}>
-            {label}
+      {(amount || label) && (
+        <EdgeLabelRenderer>
+          <div
+            style={{
+              position: "absolute",
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+              pointerEvents: "all",
+            }}
+            className="bg-white/90 dark:bg-gray-800/90 px-1.5 py-0.5 rounded text-[10px] border border-gray-200 dark:border-gray-600 shadow-sm cursor-pointer hover:shadow-md transition-shadow backdrop-blur-sm"
+          >
+            <div className="font-medium" style={{ color }}>
+              {label}
+            </div>
+            {amount && <div className="text-gray-700 dark:text-gray-200 font-semibold">{amount}</div>}
           </div>
-          {amount && <div className="text-gray-700 font-semibold">{amount}</div>}
-          {dealDate && <div className="text-gray-400">Since {dealDate}</div>}
-        </div>
-      </EdgeLabelRenderer>
+        </EdgeLabelRenderer>
+      )}
     </>
   );
 }

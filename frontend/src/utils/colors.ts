@@ -31,4 +31,5 @@ export const relTypeColors: Record<string, string> = {
   INVESTS_IN: "#ef4444",
   ACQUIRED: "#dc2626",
   COMPETES_WITH: "#6b7280",
+  HOLDS_POSITION: "#7c3aed",
 };
