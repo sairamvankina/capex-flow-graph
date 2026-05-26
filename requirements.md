@@ -34,4 +34,14 @@ also contnue to capex cycle example nvia invested in nebius nebius will also inv
   companies use those as well and also add revenue break dwn as well like google have Ads fro
   google, youtube, etc, Cloud revenue, waymo, chips reveneue, deepmind revenue etc  
 
+
+there is smaller view at bottom but it is not ineractable can you make it interactable and 
+  change filter format Also Categorize based in standard sectors I gave names in know, Also ETF 
+  is also part of sector right when i selct semi conductor relavant ETF's should appear as well, 
+  cuurenlty ETF's are not showing anything 
+
+  when i select a company or node all other nodes and connection that are not linked should disappear ,also can you add drop down to select all nodes stock, etf's, hedge funds so when i select one, only nodes attched to it should be there remaining should diappear once i close side view or click on blank space everything else shows up 
   
+  invesco QQQ growth is YTD is +15.55% but the graph shows +9.86 % also in side view Nvideo shows +85 % is it its contribution to this growth or QQQ has 85 % of the stock value?  what 8.5% representing Meta shows 3.5 % 
+
+When selecting ETF I am looking for 2 things YTD growth and in this ETF how much % each company have, and how much growth contribution each company did if a company is at loss then i want to see how much it % decreases the ETF stock if there are many companies in this make it scrollable sorted by top companies

@@ -71,6 +71,7 @@ function GraphCanvasInner() {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>("force");
   const [searchQuery, setSearchQuery] = useState("");
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
+  const [focusedNode, setFocusedNode] = useState<string | null>(null);
   const [dark, setDark] = useDarkMode();
   const [allNodes, setAllNodes] = useState<Node[]>([]);
   const [allEdges, setAllEdges] = useState<Edge[]>([]);
@@ -98,8 +99,19 @@ function GraphCanvasInner() {
     });
   }, [layoutMode]);
 
+  // Get connected node IDs for a given focused node
+  const connectedNodeIds = useMemo(() => {
+    if (!focusedNode) return null;
+    const connected = new Set<string>([focusedNode]);
+    for (const edge of allEdges) {
+      if (edge.source === focusedNode) connected.add(edge.target);
+      if (edge.target === focusedNode) connected.add(edge.source);
+    }
+    return connected;
+  }, [focusedNode, allEdges]);
+
   useEffect(() => {
-    const filteredNodes = allNodes.filter((n) => {
+    let filteredNodes = allNodes.filter((n) => {
       const cat = (n.data as unknown as { category: string }).category;
       if (cat === "hedge_fund") return showHedgeFunds;
       if (cat === "etf") {
@@ -111,6 +123,12 @@ function GraphCanvasInner() {
       if (filterMode === "all") return true;
       return cat === filterMode;
     });
+
+    // Apply focus filter
+    if (connectedNodeIds) {
+      filteredNodes = filteredNodes.filter((n) => connectedNodeIds.has(n.id));
+    }
+
     const nodeIds = new Set(filteredNodes.map((n) => n.id));
     const filteredEdges = allEdges.filter(
       (e) => nodeIds.has(e.source) && nodeIds.has(e.target)
@@ -118,7 +136,7 @@ function GraphCanvasInner() {
     setNodes(filteredNodes);
     setEdges(filteredEdges);
     setTimeout(() => fitView({ duration: 400, padding: 0.15 }), 50);
-  }, [filterMode, allNodes, allEdges, showEtfs, showHedgeFunds, fitView]);
+  }, [filterMode, allNodes, allEdges, showEtfs, showHedgeFunds, connectedNodeIds, fitView]);
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -129,15 +147,28 @@ function GraphCanvasInner() {
     }).slice(0, 8);
   }, [searchQuery, allNodes]);
 
+  // All node options for the focus dropdown
+  const nodeOptions = useMemo(() => {
+    return allNodes
+      .map((n) => {
+        const d = n.data as unknown as { ticker?: string; name?: string; category?: string };
+        return { id: n.id, ticker: d.ticker || n.id, name: d.name || "", category: d.category || "" };
+      })
+      .sort((a, b) => a.ticker.localeCompare(b.ticker));
+  }, [allNodes]);
+
   const handleSearchSelect = useCallback((nodeId: string) => {
-    const node = allNodes.find((n) => n.id === nodeId);
-    if (node) {
-      setCenter(node.position.x + 110, node.position.y + 70, { zoom: 1.5, duration: 600 });
-      setHighlightedNode(nodeId);
-      setTimeout(() => setHighlightedNode(null), 2000);
-    }
+    setFocusedNode(nodeId);
     setSearchQuery("");
-  }, [allNodes, setCenter]);
+  }, []);
+
+  const clearFocus = useCallback(() => {
+    setFocusedNode(null);
+    setSelectedCompany(null);
+    setSelectedEtf(null);
+    setSelectedEdge(null);
+    setSelectedRelationships([]);
+  }, []);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -145,15 +176,19 @@ function GraphCanvasInner() {
         e.preventDefault();
         searchRef.current?.focus();
       }
+      if (e.key === "Escape") {
+        clearFocus();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [clearFocus]);
 
   const onNodeClick: NodeMouseHandler = useCallback(async (_event, node) => {
     setSelectedEdge(null);
     setSelectedEtf(null);
     setSelectedCompany(null);
+    setFocusedNode(node.id);
 
     if (node.type === "etfNode") {
       const detail = await fetchEtfDetail(node.id);
@@ -179,6 +214,10 @@ function GraphCanvasInner() {
       data: edge.data as unknown as RelationshipData,
     });
   }, []);
+
+  const onPaneClick = useCallback(() => {
+    clearFocus();
+  }, [clearFocus]);
 
   const panelBg = dark ? "bg-gray-900/95 border-gray-700" : "bg-white/95 border-gray-200";
   const textMuted = dark ? "text-gray-400" : "text-gray-500";
@@ -229,6 +268,45 @@ function GraphCanvasInner() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Focus node dropdown */}
+        <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+          <div className={`text-[10px] font-semibold uppercase mb-2 ${textMuted}`}>Focus Node</div>
+          <select
+            value={focusedNode || ""}
+            onChange={(e) => setFocusedNode(e.target.value || null)}
+            className={`text-xs px-2 py-1 rounded-lg border w-full ${
+              dark ? "bg-gray-800 border-gray-600 text-gray-200" : "bg-gray-50 border-gray-200 text-gray-700"
+            }`}
+          >
+            <option value="">Show All</option>
+            <optgroup label="Stocks">
+              {nodeOptions.filter((n) => n.category !== "etf" && n.category !== "hedge_fund").map((n) => (
+                <option key={n.id} value={n.id}>{n.ticker} — {n.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="ETFs">
+              {nodeOptions.filter((n) => n.category === "etf").map((n) => (
+                <option key={n.id} value={n.id}>{n.ticker} — {n.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="Hedge Funds">
+              {nodeOptions.filter((n) => n.category === "hedge_fund").map((n) => (
+                <option key={n.id} value={n.id}>{n.ticker} — {n.name}</option>
+              ))}
+            </optgroup>
+          </select>
+          {focusedNode && (
+            <button
+              onClick={clearFocus}
+              className={`mt-1.5 text-[10px] w-full text-center py-1 rounded border transition-colors ${
+                dark ? "border-gray-600 text-gray-400 hover:bg-gray-700" : "border-gray-200 text-gray-500 hover:bg-gray-50"
+              }`}
+            >
+              Clear Focus (Esc)
+            </button>
+          )}
         </div>
 
         {/* Sector filter */}
@@ -322,6 +400,7 @@ function GraphCanvasInner() {
         onEdgesChange={onEdgesChange}
         onNodeClick={onNodeClick}
         onEdgeClick={onEdgeClick}
+        onPaneClick={onPaneClick}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView
@@ -379,12 +458,12 @@ function GraphCanvasInner() {
       <DetailPanel
         company={selectedCompany}
         relationships={selectedRelationships}
-        onClose={() => setSelectedCompany(null)}
+        onClose={clearFocus}
       />
 
       <EtfDetailPanel
         data={selectedEtf}
-        onClose={() => setSelectedEtf(null)}
+        onClose={clearFocus}
       />
 
       <EdgeDetailPanel

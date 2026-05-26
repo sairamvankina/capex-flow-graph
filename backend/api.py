@@ -274,6 +274,63 @@ def get_company(ticker: str):
         }
 
 
+@app.get("/performance")
+def get_performance(period: str = Query("ytd")):
+    """Get price return for all companies and ETFs over a time period.
+    period: '1d', '5d', '1mo', '6mo', '1y', 'ytd'
+
+    Uses yfinance's native period parameter which correctly handles
+    trading days. '1d' means last trading day's intraday change.
+    """
+    import yfinance as yf
+
+    with driver.session() as session:
+        company_result = session.run("MATCH (c:Company) RETURN c.ticker AS ticker")
+        etf_result = session.run("MATCH (e:ETF) RETURN e.ticker AS ticker")
+        tickers = [r["ticker"] for r in company_result] + [r["ticker"] for r in etf_result]
+
+    # For 1d, use "2d" period to get yesterday close + today close
+    yf_period_map = {
+        "1d": "2d",
+        "5d": "5d",
+        "1mo": "1mo",
+        "6mo": "6mo",
+        "1y": "1y",
+        "ytd": "ytd",
+    }
+    yf_period = yf_period_map.get(period, "6mo")
+
+    results = {}
+    batch_size = 20
+    for i in range(0, len(tickers), batch_size):
+        batch = tickers[i:i + batch_size]
+        try:
+            data = yf.download(batch, period=yf_period, progress=False, interval="1d")
+            if data.empty:
+                continue
+            close = data["Close"]
+            for ticker in batch:
+                try:
+                    if ticker in close.columns:
+                        series = close[ticker].dropna()
+                    elif len(batch) == 1:
+                        series = close.dropna()
+                    else:
+                        continue
+                    if len(series) < 2:
+                        continue
+                    start_price = series.iloc[0]
+                    end_price = series.iloc[-1]
+                    pct_return = (end_price - start_price) / start_price
+                    results[ticker] = round(float(pct_return), 5)
+                except Exception:
+                    continue
+        except Exception:
+            continue
+
+    return {"period": period, "returns": results}
+
+
 @app.post("/refresh")
 def refresh_data(target: str = Query("all")):
     """Refresh data from external sources and re-seed Neo4j.

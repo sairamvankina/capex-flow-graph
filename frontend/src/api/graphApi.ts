@@ -46,6 +46,18 @@ export async function fetchEtfDetail(ticker: string): Promise<EtfDetail> {
   return res.json();
 }
 
+export type TimePeriod = "1d" | "5d" | "1mo" | "6mo" | "1y" | "ytd";
+
+export interface PerformanceResponse {
+  period: string;
+  returns: Record<string, number>;
+}
+
+export async function fetchPerformance(period: TimePeriod): Promise<PerformanceResponse> {
+  const res = await fetch(`${BASE}/performance?period=${period}`);
+  return res.json();
+}
+
 export async function refreshData(target: "all" | "financials" | "etfs" | "hedge_funds" = "all"): Promise<{ status: string; results: Record<string, string> }> {
   const res = await fetch(`${BASE}/refresh?target=${target}`, { method: "POST" });
   return res.json();
