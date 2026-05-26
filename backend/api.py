@@ -284,6 +284,115 @@ def get_performance(period: str = Query("ytd")):
     return {"period": period, "returns": results}
 
 
+@app.post("/add-company")
+def add_company(ticker: str = Query(...), category: str = Query(...)):
+    """Add a new company by ticker. Fetches financials from yfinance."""
+    import json
+    import yfinance as yf
+
+    ticker = ticker.upper()
+    if ticker in store.companies:
+        return {"error": f"{ticker} already exists"}
+
+    try:
+        t = yf.Ticker(ticker)
+        info = t.info
+        if not info or not info.get("shortName"):
+            return {"error": f"Could not find {ticker} on yfinance"}
+    except Exception as e:
+        return {"error": f"Failed to fetch {ticker}: {str(e)}"}
+
+    name = info.get("shortName", ticker)
+    financials = {
+        "market_cap": info.get("marketCap"),
+        "revenue": info.get("totalRevenue"),
+        "revenue_growth": info.get("revenueGrowth"),
+        "eps": info.get("trailingEps"),
+        "pe_ratio": info.get("trailingPE"),
+        "gross_margin": info.get("grossMargins"),
+        "operating_margin": info.get("operatingMargins"),
+        "net_margin": info.get("profitMargins"),
+    }
+
+    # Update companies.json
+    companies_path = Path(__file__).parent / "seed_data/companies.json"
+    companies = json.loads(companies_path.read_text())
+    companies.append({
+        "ticker": ticker,
+        "name": name,
+        "category": category,
+        "pick_and_shovel": False,
+        "competitive_moat": "moderate",
+        "sentiment": "neutral",
+    })
+    companies_path.write_text(json.dumps(companies, indent=2))
+
+    # Update financials_cache.json
+    cache_path = Path(__file__).parent / "seed_data/financials_cache.json"
+    cache = json.loads(cache_path.read_text()) if cache_path.exists() else {}
+    cache[ticker] = financials
+    cache_path.write_text(json.dumps(cache, indent=2))
+
+    store.reload()
+    return {"status": "ok", "ticker": ticker, "name": name, "category": category}
+
+
+@app.post("/add-etf")
+def add_etf(ticker: str = Query(...), sector: str = Query(...)):
+    """Add a new ETF by ticker. Fetches holdings and metadata from yfinance."""
+    import json
+    import yfinance as yf
+
+    ticker = ticker.upper()
+    if ticker in store.etfs:
+        return {"error": f"{ticker} already exists"}
+
+    try:
+        t = yf.Ticker(ticker)
+        info = t.info
+        if not info or not info.get("shortName"):
+            return {"error": f"Could not find {ticker} on yfinance"}
+    except Exception as e:
+        return {"error": f"Failed to fetch {ticker}: {str(e)}"}
+
+    name = info.get("shortName", ticker)
+    total_assets = info.get("totalAssets")
+    ytd_return = info.get("ytdReturn")
+
+    # Get holdings
+    holdings = []
+    try:
+        holdings_df = t.funds_data.top_holdings
+        if holdings_df is not None:
+            for symbol, row in holdings_df.iterrows():
+                holdings.append({
+                    "ticker": symbol,
+                    "name": row.get("Name", ""),
+                    "weight": float(row.get("Holding Percent", 0)),
+                })
+    except Exception:
+        pass
+
+    # Update etf_holdings.json
+    etf_path = Path(__file__).parent / "seed_data/etf_holdings.json"
+    etf_data = json.loads(etf_path.read_text()) if etf_path.exists() else {}
+    etf_data[ticker] = {
+        "ticker": ticker,
+        "name": name,
+        "sector": sector,
+        "ytd_return": ytd_return,
+        "total_assets": total_assets,
+        "expense_ratio": None,
+        "sector_exposure": None,
+        "holdings": holdings,
+        "source": "yfinance",
+    }
+    etf_path.write_text(json.dumps(etf_data, indent=2))
+
+    store.reload()
+    return {"status": "ok", "ticker": ticker, "name": name, "sector": sector, "holdings": len(holdings)}
+
+
 @app.post("/refresh")
 def refresh_data(target: str = Query("all")):
     """Refresh data from external sources and reload in-memory store.

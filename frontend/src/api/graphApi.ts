@@ -58,6 +58,16 @@ export async function fetchPerformance(period: TimePeriod): Promise<PerformanceR
   return res.json();
 }
 
+export async function addCompany(ticker: string, category: string): Promise<{ status?: string; error?: string; ticker?: string; name?: string }> {
+  const res = await fetch(`${BASE}/add-company?ticker=${encodeURIComponent(ticker)}&category=${encodeURIComponent(category)}`, { method: "POST" });
+  return res.json();
+}
+
+export async function addEtf(ticker: string, sector: string): Promise<{ status?: string; error?: string; ticker?: string; name?: string; holdings?: number }> {
+  const res = await fetch(`${BASE}/add-etf?ticker=${encodeURIComponent(ticker)}&sector=${encodeURIComponent(sector)}`, { method: "POST" });
+  return res.json();
+}
+
 export async function refreshData(target: "all" | "financials" | "etfs" | "hedge_funds" = "all"): Promise<{ status: string; results: Record<string, string> }> {
   const res = await fetch(`${BASE}/refresh?target=${target}`, { method: "POST" });
   return res.json();

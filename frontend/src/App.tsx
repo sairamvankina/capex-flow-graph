@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { GraphCanvas } from "./components/GraphCanvas";
 import { GrowthPanel } from "./components/GrowthPanel";
+import { AddTickerModal } from "./components/AddTickerModal";
 import { useDarkMode } from "./hooks/useDarkMode";
 import { refreshData } from "./api/graphApi";
 
@@ -9,6 +10,7 @@ function App() {
   const [dark] = useDarkMode();
   const [refreshing, setRefreshing] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -18,6 +20,11 @@ function App() {
     } finally {
       setRefreshing(false);
     }
+  }, []);
+
+  const handleAdded = useCallback(() => {
+    setRefreshKey((k) => k + 1);
+    setShowAddModal(false);
   }, []);
 
   return (
@@ -48,6 +55,14 @@ function App() {
         </button>
         <div className="ml-auto flex items-center gap-3">
           <button
+            onClick={() => setShowAddModal(true)}
+            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+              dark ? "border-green-600 text-green-300 hover:bg-green-900/30" : "border-green-300 text-green-700 hover:bg-green-50"
+            }`}
+          >
+            + Add Ticker
+          </button>
+          <button
             onClick={handleRefresh}
             disabled={refreshing}
             className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
@@ -69,6 +84,14 @@ function App() {
         {activeTab === "graph" && <GraphCanvas key={refreshKey} />}
         {activeTab === "growth" && <GrowthPanel key={refreshKey} />}
       </div>
+
+      {/* Add Ticker Modal */}
+      {showAddModal && (
+        <AddTickerModal
+          onClose={() => setShowAddModal(false)}
+          onAdded={handleAdded}
+        />
+      )}
     </div>
   );
 }
