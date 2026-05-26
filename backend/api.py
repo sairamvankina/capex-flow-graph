@@ -4,20 +4,11 @@ from typing import Optional
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from neo4j import GraphDatabase
 
-from config import NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD
+from data_store import store
 
 app = FastAPI(title="CapEx Flow Graph API")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-
-driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
-
-
-@app.on_event("shutdown")
-def shutdown():
-    driver.close()
 
 
 @app.get("/graph")
@@ -26,131 +17,112 @@ def get_graph(
     include_etfs: bool = Query(False),
     include_hedge_funds: bool = Query(False),
 ):
-    with driver.session() as session:
-        if category:
-            node_result = session.run(
-                "MATCH (c:Company) WHERE c.category = $category RETURN c",
-                category=category,
-            )
-        else:
-            node_result = session.run("MATCH (c:Company) RETURN c")
+    nodes = []
+    tickers = set()
 
-        nodes = []
-        tickers = set()
-        for record in node_result:
-            c = record["c"]
-            ticker = c["ticker"]
+    for ticker, c in store.companies.items():
+        if category and c.get("category") != category:
+            continue
+        tickers.add(ticker)
+        nodes.append({
+            "id": ticker,
+            "type": "companyNode",
+            "position": {"x": 0, "y": 0},
+            "data": c,
+        })
+
+    if include_etfs:
+        for ticker, e in store.etfs.items():
             tickers.add(ticker)
             nodes.append({
                 "id": ticker,
-                "type": "companyNode",
+                "type": "etfNode",
                 "position": {"x": 0, "y": 0},
                 "data": {
                     "ticker": ticker,
-                    "name": c.get("name"),
-                    "category": c.get("category"),
-                    "marketCap": c.get("marketCap"),
-                    "revenue": c.get("revenue"),
-                    "revenueGrowth": c.get("revenueGrowth"),
-                    "eps": c.get("eps"),
-                    "peRatio": c.get("peRatio"),
-                    "grossMargin": c.get("grossMargin"),
-                    "operatingMargin": c.get("operatingMargin"),
-                    "netMargin": c.get("netMargin"),
-                    "pickAndShovel": c.get("pickAndShovel"),
-                    "competitiveMoat": c.get("competitiveMoat"),
-                    "sentiment": c.get("sentiment"),
-                    "revenueBreakdown": c.get("revenueBreakdown"),
+                    "name": e.get("name"),
+                    "category": "etf",
+                    "sector": e.get("sector"),
+                    "totalAssets": e.get("totalAssets"),
+                    "ytdReturn": e.get("ytdReturn"),
                 },
             })
 
-        # Include ETF nodes if requested
-        if include_etfs:
-            etf_result = session.run("MATCH (e:ETF) RETURN e")
-            for record in etf_result:
-                e = record["e"]
-                ticker = e["ticker"]
-                tickers.add(ticker)
-                nodes.append({
-                    "id": ticker,
-                    "type": "etfNode",
-                    "position": {"x": 0, "y": 0},
-                    "data": {
-                        "ticker": ticker,
-                        "name": e.get("name"),
-                        "category": "etf",
-                        "sector": e.get("sector"),
-                        "totalAssets": e.get("totalAssets"),
-                        "ytdReturn": e.get("ytdReturn"),
-                    },
-                })
-
-        if include_hedge_funds:
-            hf_result = session.run("MATCH (h:HedgeFund) RETURN h")
-            for record in hf_result:
-                h = record["h"]
-                name = h["name"]
-                node_id = f"HF_{name.replace(' ', '_')}"
-                tickers.add(node_id)
-                nodes.append({
-                    "id": node_id,
-                    "type": "hedgeFundNode",
-                    "position": {"x": 0, "y": 0},
-                    "data": {
-                        "name": name,
-                        "cik": h.get("cik"),
-                        "filingDate": h.get("filingDate"),
-                        "reportPeriod": h.get("reportPeriod"),
-                        "totalPortfolioValue": h.get("totalPortfolioValue"),
-                        "category": "hedge_fund",
-                    },
-                })
-
-        edge_result = session.run("""
-            MATCH (a)-[r]->(b)
-            WHERE (a:Company OR a:ETF) AND (b:Company OR b:ETF)
-            RETURN a.ticker AS source, b.ticker AS target,
-                   type(r) AS relType, properties(r) AS props
-        """)
-
-        edges = []
-        for record in edge_result:
-            source = record["source"]
-            target = record["target"]
-            if source not in tickers or target not in tickers:
-                continue
-            rel_type = record["relType"]
-            props = record["props"]
-            edges.append({
-                "id": f"{source}-{target}-{rel_type}",
-                "source": source,
-                "target": target,
-                "type": "relationshipEdge",
+    if include_hedge_funds:
+        for name, hf in store.hedge_funds.items():
+            node_id = f"HF_{name.replace(' ', '_')}"
+            tickers.add(node_id)
+            nodes.append({
+                "id": node_id,
+                "type": "hedgeFundNode",
+                "position": {"x": 0, "y": 0},
                 "data": {
-                    "relType": rel_type,
-                    "amount": props.get("amount"),
-                    "product": props.get("product"),
-                    "description": props.get("description"),
-                    "strategicImportance": props.get("strategicImportance"),
-                    "dealDate": props.get("dealDate"),
-                    "dealDuration": props.get("dealDuration"),
-                    "sourceInfo": props.get("sourceInfo"),
-                    "annualRecurring": props.get("annualRecurring"),
-                    "status": props.get("status"),
-                    "weight": props.get("weight"),
+                    "name": name,
+                    "cik": hf.get("cik"),
+                    "filingDate": hf.get("filingDate"),
+                    "reportPeriod": hf.get("reportPeriod"),
+                    "totalPortfolioValue": hf.get("totalPortfolioValue"),
+                    "category": "hedge_fund",
                 },
             })
 
-        if include_hedge_funds:
-            hf_edge_result = session.run("""
-                MATCH (h:HedgeFund)-[r:HOLDS_POSITION]->(c:Company)
-                RETURN h.name AS fundName, c.ticker AS ticker,
-                       r.shares AS shares, r.value AS value, r.filingDate AS filingDate
-            """)
-            for record in hf_edge_result:
-                fund_id = f"HF_{record['fundName'].replace(' ', '_')}"
-                ticker = record["ticker"]
-                if fund_id in tickers and ticker in tickers:
+    # Company-to-company and ETF edges
+    edges = []
+    for r in store.relationships:
+        source = r["source"]
+        target = r["target"]
+        if source not in tickers or target not in tickers:
+            continue
+        edges.append({
+            "id": f"{source}-{target}-{r['relType']}",
+            "source": source,
+            "target": target,
+            "type": "relationshipEdge",
+            "data": {
+                "relType": r["relType"],
+                "amount": r.get("amount"),
+                "product": r.get("product"),
+                "description": r.get("description"),
+                "strategicImportance": r.get("strategicImportance"),
+                "dealDate": r.get("dealDate"),
+                "dealDuration": r.get("dealDuration"),
+                "sourceInfo": r.get("sourceInfo"),
+                "annualRecurring": r.get("annualRecurring"),
+                "status": r.get("status"),
+            },
+        })
+
+    # ETF HOLDS_POSITION edges
+    if include_etfs:
+        for etf_ticker, holdings in store.etf_holdings.items():
+            if etf_ticker not in tickers:
+                continue
+            for h in holdings:
+                company_ticker = h.get("ticker")
+                if company_ticker in tickers:
+                    edges.append({
+                        "id": f"{etf_ticker}-{company_ticker}-HOLDS_POSITION",
+                        "source": etf_ticker,
+                        "target": company_ticker,
+                        "type": "relationshipEdge",
+                        "data": {
+                            "relType": "HOLDS_POSITION",
+                            "weight": h.get("weight"),
+                            "description": f"{etf_ticker} holds {(h.get('weight', 0) * 100):.1f}%",
+                            "strategicImportance": "low",
+                        },
+                    })
+
+    # Hedge fund HOLDS_POSITION edges
+    if include_hedge_funds:
+        for fund_name, positions in store.hf_positions.items():
+            fund_id = f"HF_{fund_name.replace(' ', '_')}"
+            if fund_id not in tickers:
+                continue
+            for pos in positions:
+                ticker = pos.get("ticker")
+                if ticker in tickers:
+                    shares = pos.get("shares", 0)
                     edges.append({
                         "id": f"{fund_id}-{ticker}-HOLDS_POSITION",
                         "source": fund_id,
@@ -158,11 +130,11 @@ def get_graph(
                         "type": "relationshipEdge",
                         "data": {
                             "relType": "HOLDS_POSITION",
-                            "amount": record["value"],
-                            "shares": record["shares"],
-                            "description": f"{record['fundName']} holds {record['shares']:,} shares",
+                            "amount": pos.get("value"),
+                            "shares": shares,
+                            "description": f"{fund_name} holds {shares:,} shares",
                             "strategicImportance": "medium",
-                            "dealDate": record["filingDate"],
+                            "dealDate": store.hedge_funds[fund_name].get("filingDate"),
                         },
                     })
 
@@ -171,128 +143,106 @@ def get_graph(
 
 @app.get("/hedge-funds")
 def get_hedge_funds():
-    with driver.session() as session:
-        result = session.run("""
-            MATCH (h:HedgeFund)-[r:HOLDS_POSITION]->(c:Company)
-            RETURN h.name AS fundName, h.cik AS cik,
-                   h.filingDate AS filingDate, h.reportPeriod AS reportPeriod,
-                   h.totalPortfolioValue AS totalValue,
-                   c.ticker AS ticker, c.name AS companyName,
-                   r.shares AS shares, r.value AS value
-            ORDER BY h.name, r.value DESC
-        """)
-
-        funds = {}
-        for record in result:
-            name = record["fundName"]
-            if name not in funds:
-                funds[name] = {
-                    "name": name,
-                    "cik": record["cik"],
-                    "filingDate": record["filingDate"],
-                    "reportPeriod": record["reportPeriod"],
-                    "totalPortfolioValue": record["totalValue"],
-                    "positions": [],
-                }
-            funds[name]["positions"].append({
-                "ticker": record["ticker"],
-                "companyName": record["companyName"],
-                "shares": record["shares"],
-                "value": record["value"],
+    funds = []
+    for name, hf in store.hedge_funds.items():
+        positions = []
+        for pos in store.hf_positions.get(name, []):
+            company = store.companies.get(pos["ticker"])
+            positions.append({
+                "ticker": pos["ticker"],
+                "companyName": company["name"] if company else pos.get("name"),
+                "shares": pos.get("shares"),
+                "value": pos.get("value"),
             })
-
-    return {"funds": list(funds.values())}
+        positions.sort(key=lambda x: x.get("value") or 0, reverse=True)
+        funds.append({
+            "name": name,
+            "cik": hf.get("cik"),
+            "filingDate": hf.get("filingDate"),
+            "reportPeriod": hf.get("reportPeriod"),
+            "totalPortfolioValue": hf.get("totalPortfolioValue"),
+            "positions": positions,
+        })
+    return {"funds": funds}
 
 
 @app.get("/etf/{ticker}")
 def get_etf(ticker: str):
-    with driver.session() as session:
-        result = session.run(
-            "MATCH (e:ETF {ticker: $ticker}) RETURN e", ticker=ticker
-        )
-        record = result.single()
-        if not record:
-            return {"error": "Not found"}
+    etf = store.etfs.get(ticker)
+    if not etf:
+        return {"error": "Not found"}
 
-        e = record["e"]
+    raw_holdings = store.etf_holdings.get(ticker, [])
+    holdings = []
+    for h in raw_holdings:
+        company = store.companies.get(h.get("ticker"))
+        holdings.append({
+            "ticker": h.get("ticker"),
+            "name": h.get("name") or (company["name"] if company else ""),
+            "category": company["category"] if company else "unknown",
+            "marketCap": company["marketCap"] if company else None,
+            "revenueGrowth": company["revenueGrowth"] if company else None,
+            "weight": h.get("weight", 0),
+        })
+    holdings.sort(key=lambda x: x["weight"], reverse=True)
 
-        holdings_result = session.run("""
-            MATCH (e:ETF {ticker: $ticker})-[r:HOLDS_POSITION]->(c:Company)
-            RETURN c.ticker AS ticker, c.name AS name, c.category AS category,
-                   c.marketCap AS marketCap, c.revenueGrowth AS revenueGrowth,
-                   r.weight AS weight
-            ORDER BY r.weight DESC
-        """, ticker=ticker)
-
-        holdings = []
-        for h in holdings_result:
-            holdings.append({
-                "ticker": h["ticker"],
-                "name": h["name"],
-                "category": h["category"],
-                "marketCap": h["marketCap"],
-                "revenueGrowth": h["revenueGrowth"],
-                "weight": h["weight"],
-            })
-
-        return {
-            "etf": dict(e),
-            "holdings": holdings,
-        }
+    return {"etf": etf, "holdings": holdings}
 
 
 @app.get("/company/{ticker}")
 def get_company(ticker: str):
-    with driver.session() as session:
-        result = session.run(
-            "MATCH (c:Company {ticker: $ticker}) RETURN c", ticker=ticker
-        )
-        record = result.single()
-        if not record:
-            return {"error": "Not found"}
+    company = store.companies.get(ticker)
+    if not company:
+        return {"error": "Not found"}
 
-        c = record["c"]
-
-        rels_result = session.run("""
-            MATCH (c:Company {ticker: $ticker})-[r]-(other)
-            WHERE other:Company OR other:ETF
-            RETURN type(r) AS relType, properties(r) AS props,
-                   other.ticker AS otherTicker, other.name AS otherName,
-                   startNode(r).ticker AS from
-        """, ticker=ticker)
-
-        relationships = []
-        for rel in rels_result:
+    relationships = []
+    for r in store.relationships:
+        if r["source"] == ticker:
+            other = r["target"]
+            other_company = store.companies.get(other) or store.etfs.get(other)
             relationships.append({
-                "relType": rel["relType"],
-                "direction": "outgoing" if rel["from"] == ticker else "incoming",
-                "otherTicker": rel["otherTicker"],
-                "otherName": rel["otherName"],
-                "props": dict(rel["props"]),
+                "relType": r["relType"],
+                "direction": "outgoing",
+                "otherTicker": other,
+                "otherName": other_company.get("name") if other_company else other,
+                "props": {k: v for k, v in r.items() if k not in ("source", "target", "relType")},
+            })
+        elif r["target"] == ticker:
+            other = r["source"]
+            other_company = store.companies.get(other) or store.etfs.get(other)
+            relationships.append({
+                "relType": r["relType"],
+                "direction": "incoming",
+                "otherTicker": other,
+                "otherName": other_company.get("name") if other_company else other,
+                "props": {k: v for k, v in r.items() if k not in ("source", "target", "relType")},
             })
 
-        return {
-            "company": dict(c),
-            "relationships": relationships,
-        }
+    # Also include ETF holdings of this company
+    for etf_ticker, holdings in store.etf_holdings.items():
+        for h in holdings:
+            if h.get("ticker") == ticker:
+                etf = store.etfs.get(etf_ticker)
+                relationships.append({
+                    "relType": "HOLDS_POSITION",
+                    "direction": "incoming",
+                    "otherTicker": etf_ticker,
+                    "otherName": etf["name"] if etf else etf_ticker,
+                    "props": {"weight": h.get("weight")},
+                })
+
+    return {"company": company, "relationships": relationships}
 
 
 @app.get("/performance")
 def get_performance(period: str = Query("ytd")):
     """Get price return for all companies and ETFs over a time period.
     period: '1d', '5d', '1mo', '6mo', '1y', 'ytd'
-
-    Uses yfinance's native period parameter which correctly handles
-    trading days. '1d' means last trading day's intraday change.
     """
     import yfinance as yf
 
-    with driver.session() as session:
-        company_result = session.run("MATCH (c:Company) RETURN c.ticker AS ticker")
-        etf_result = session.run("MATCH (e:ETF) RETURN e.ticker AS ticker")
-        tickers = [r["ticker"] for r in company_result] + [r["ticker"] for r in etf_result]
+    tickers = store.get_all_tickers()
 
-    # For 1d, use "2d" period to get yesterday close + today close
     yf_period_map = {
         "1d": "2d",
         "5d": "5d",
@@ -336,7 +286,7 @@ def get_performance(period: str = Query("ytd")):
 
 @app.post("/refresh")
 def refresh_data(target: str = Query("all")):
-    """Refresh data from external sources and re-seed Neo4j.
+    """Refresh data from external sources and reload in-memory store.
     target: 'all', 'financials', 'etfs', 'hedge_funds'
     """
     import subprocess
@@ -348,20 +298,17 @@ def refresh_data(target: str = Query("all")):
     if target in ("all", "financials"):
         r = subprocess.run([python, "fetch_financials.py"], capture_output=True, text=True, timeout=120)
         results["financials"] = "ok" if r.returncode == 0 else r.stderr[-200:]
-        if r.returncode == 0:
-            subprocess.run([python, "seed_neo4j.py"], capture_output=True, text=True, timeout=30)
 
     if target in ("all", "etfs"):
         r = subprocess.run([python, "fetch_etf_holdings.py"], capture_output=True, text=True, timeout=120)
         results["etfs"] = "ok" if r.returncode == 0 else r.stderr[-200:]
-        if r.returncode == 0:
-            subprocess.run([python, "seed_etfs.py"], capture_output=True, text=True, timeout=30)
 
     if target in ("all", "hedge_funds"):
         r = subprocess.run([python, "fetch_hedge_funds.py"], capture_output=True, text=True, timeout=300)
         results["hedge_funds"] = "ok" if r.returncode == 0 else r.stderr[-200:]
-        if r.returncode == 0:
-            subprocess.run([python, "seed_hedge_funds.py"], capture_output=True, text=True, timeout=30)
+
+    # Reload in-memory store from updated files
+    store.reload()
 
     return {"status": "complete", "results": results}
 
