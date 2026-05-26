@@ -52,7 +52,6 @@ export function RelationshipEdge(props: EdgeProps) {
     importance === "medium" ? 1.5 : 1;
 
   const dashArray = data?.relType === "COMPETES_WITH" ? "6,4" : undefined;
-  const animated = data?.relType === "INVESTS_IN" || data?.relType === "HOLDS_POSITION";
 
   return (
     <>

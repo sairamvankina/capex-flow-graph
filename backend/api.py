@@ -1,7 +1,10 @@
+import os
+from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from neo4j import GraphDatabase
 
 from config import NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD
@@ -363,6 +366,20 @@ def refresh_data(target: str = Query("all")):
     return {"status": "complete", "results": results}
 
 
+# Serve frontend static files in production
+static_dir = Path(__file__).parent / "static"
+if static_dir.exists():
+    from fastapi.responses import FileResponse
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        file_path = static_dir / full_path
+        if file_path.is_file():
+            return FileResponse(file_path)
+        return FileResponse(static_dir / "index.html")
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run(app, host="0.0.0.0", port=port)

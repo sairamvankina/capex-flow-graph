@@ -51,7 +51,7 @@ const sectorEtfMap: Record<string, string[]> = {
 type FilterMode = "all" | Category;
 
 function GraphCanvasInner() {
-  const { fitView, setCenter } = useReactFlow();
+  const { fitView } = useReactFlow();
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [selectedCompany, setSelectedCompany] = useState<CompanyData | null>(null);
@@ -70,7 +70,7 @@ function GraphCanvasInner() {
   const [showHedgeFunds, setShowHedgeFunds] = useState(false);
   const [layoutMode, setLayoutMode] = useState<LayoutMode>("force");
   const [searchQuery, setSearchQuery] = useState("");
-  const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
+  const [highlightedNode] = useState<string | null>(null);
   const [focusedNode, setFocusedNode] = useState<string | null>(null);
   const [dark, setDark] = useDarkMode();
   const [allNodes, setAllNodes] = useState<Node[]>([]);

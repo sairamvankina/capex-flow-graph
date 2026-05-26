@@ -1,6 +1,6 @@
 import type { GraphResponse, CompanyDetail } from "../types";
 
-const BASE = "/api";
+const BASE = import.meta.env.DEV ? "/api" : "";
 
 export async function fetchGraph(options?: {
   category?: string;

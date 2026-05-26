@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: capex-flow-graph
+    runtime: docker
+    plan: free
+    envVars:
+      - key: NEO4J_URI
+        sync: false
+      - key: NEO4J_USER
+        sync: false
+      - key: NEO4J_PASSWORD
+        sync: false
+      - key: FINNHUB_API_KEY
+        sync: false
+      - key: PORT
+        value: "8000"
